@@ -1,0 +1,284 @@
+<template>
+	<detailsPage>
+		<menuNavigation mode="customize" v-if="currentComponent == null">
+			<template #head>
+				<dropDown class="drop-down-box" :options="options" v-model="queryType" :defaultValue="queryType" @change="queryTypeChange"></dropDown>
+			</template>
+			<template #foot>
+				<template v-if="queryType == '名称搜索'">
+					<inputBox class="input-box" v-model="query.pword" placeholder="商品名称搜索" @confirm="keywordQuery"></inputBox>
+				</template>
+				
+				<template v-else-if="queryType == '扫码查询'">
+					<inputBox class="input-box" :disabled="true" v-model="query.pword" placeholder="商品条码搜索" @confirm="keywordQuery"></inputBox>
+				</template>
+				
+				<template v-else-if="queryType == '时间筛选'">
+					<inputDateBox class="input-box" v-model="query.src_date" placeholder="请选择日期" @confirm="keywordQuery"></inputDateBox>
+				</template>
+				
+			</template>
+		</menuNavigation>
+		<view class="security-traceability" v-if="currentComponent == null">
+			<tableCustomize :data="securityTraceabilityData.data" :indexStarting="(query.page - 1) * query.size" :height="tableHeight" :option="securityTraceabilityOption" @queryClick="tableQueryDetails"></tableCustomize>
+			
+			<paginationCustomize :size="query.size" :current="query.page" :total="securityTraceabilityData.total" @change="queryChange" ></paginationCustomize>
+			
+		</view>
+		<secureDetail :goodsId="goodsId" v-else></secureDetail>
+	</detailsPage>
+</template>
+
+<script>
+	import { formatDate, lazyLoadCache, pageSelectedMenu } from '@/tool/tool.js'
+	import { mapState, mapMutations } from 'vuex'
+	import detailsPage from '@/components/detailsPage.vue' // 默认页面
+	import menuNavigation from '@/components/menuNavigation.vue' // 选择标签菜单
+	import dropDown from '@/components/dropDown.vue'
+	import inputBox from '@/components/inputBox.vue'
+	import inputDateBox from '@/components/inputDateBox.vue'
+	import nullDataState from '@/components/nullDataState'
+	import tableCustomize from '@/components/tableCustomize'
+	import paginationCustomize from '@/components/paginationCustomize'
+	
+	import secureDetail from './components/secureDetail.vue' // 食安详情
+	
+	
+	export default {
+		name: "securityTraceability",
+		components:{
+			detailsPage,
+			dropDown,
+			inputBox,
+			inputDateBox,
+			menuNavigation,
+			nullDataState,
+			tableCustomize,
+			secureDetail,
+			paginationCustomize
+		},
+		data() {
+			return {
+				options: [{
+					value: '名称搜索',
+					label: '名称搜索'
+				}, {
+					value: '扫码查询',
+					label: '扫码查询'
+				}, {
+					value: '时间筛选',
+					label: '时间筛选'
+				}],
+				queryType: '名称搜索',
+				query: {
+					page: 1,
+					size: 15,
+					pword: '',
+					src_date: ''
+				},
+				securityTraceabilityData: {},
+				securityTraceabilityOption: [{
+					prop: 'index',
+					label: '序号',
+					maxWidth: 5,
+					maxCharacter: 3,
+				}, {
+					prop: 'goods_name',
+					label: '商品名称',
+					maxWidth: 68,
+					maxCharacter: 20,
+				}, {
+					prop: 'goods_category',
+					label: '分类',
+					maxWidth: 45,
+					maxCharacter: 12,
+				}, {
+					prop: 'in_date',
+					label: '入库时间',
+					maxWidth: 30,
+					maxCharacter: 10,
+				}, {
+					prop: 'in_num',
+					label: '入库数量',
+					maxWidth: 25,
+					maxCharacter: 6,
+				}, {
+					prop: 'vendor',
+					label: '供应商',
+					maxWidth: 45,
+					maxCharacter: 12,
+				}, {
+					prop: 'configure',
+					float: true,
+					label: '操作',
+					maxCharacter: 5,
+					butText:'查询',
+					triggerEvent: 'queryClick'
+				}],
+				tableHeight: '0vw',
+				selfRootRoute: 'securityTraceability',
+				currentComponent: null,
+				goodsId: null,
+				
+			}
+		},
+		computed: {
+			...mapState(['routeInfo'])
+		},
+		async created() {
+			this.tableHeight = `calc(100vh - 41vw - 20vw - 23vw)`
+			const securityTraceabilityData = uni.getStorageSync('securityTraceabilityData') || null;
+			if (securityTraceabilityData) {
+				lazyLoadCache(() => {
+					this.securityTraceabilityData = securityTraceabilityData
+				})
+			} else {
+				await this.getData()
+			}
+		},
+		watch: {
+			routeInfo(newVal) {
+				if (!newVal.options.routePath.includes('secureDetail')) {
+					this.currentComponent = null
+					this.updataRichTextData(null)
+				}
+			}
+		},
+		methods: {
+			...mapMutations(['updataRouteInfo', 'updataRichTextData']),
+			// 查询类型发生变化
+			queryTypeChange(data) {
+				this.query = {
+					page: 1,
+					size: 15,
+					pword: '',
+					src_date: ''
+				}
+			},
+			// 获取数据
+			async getData() {
+				await uni.request({
+					url: 'touch/shop/getShopOrigin',
+					method: 'post',
+					data: {
+						...this.query
+					},
+					success: (res) => {
+						if (res.data.code == 200) {
+							this.securityTraceabilityData = res.data.data
+						}
+					},
+				});
+			},
+			
+			tableQueryDetails(data) {
+				this.goodsId = data.goods_id
+				pageSelectedMenu('secureDetail', this, 'secureDetail')
+			},
+			
+			queryChange(data) {
+				this.query.page = data.current
+				this.getData()
+			},
+			
+			keywordQuery() {
+				this.query.page = 1
+				this.getData()
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+.drop-down-box {
+	// padding: 3vw 0 0 0;
+}
+.input-box {
+	width: calc(100% - 0vw);
+}
+.security-traceability {
+	width: 100vw;
+	height: calc(100% - 10vw);
+	position: relative;
+	background-color: #fff;
+	
+	.scroll-box {
+		width: 100%;
+		height: calc(100%);
+		box-sizing: border-box;
+		padding: 2vw 0;
+		.item {
+			width: calc(100% - 4vw);
+			display: flex;
+			padding: 15rpx;
+			box-shadow: 0 0 1vw rgba(4, 100, 202, 0.5);
+		  margin: 3vw auto 3vw auto;
+		
+			.profile-picture {
+				width: 21vw;
+				height: 28vw;
+				margin-right: 2vw;
+				border-radius: 1vw;
+				flex-shrink: 0;
+			}
+		
+			.info-box {
+				width: calc(100% - 21vw - 2vw);
+				.name-box {
+					display: flex;
+					height: 8vw;
+					.name {
+						// letter-spacing: 10rpx;
+						height: 100%;
+		        min-width: 14vw;
+						display: flex;
+						align-items: center;
+						position: relative;
+						margin-right: 2vw;
+						color: #0464CA;
+						font-family: 'PingFangH';
+						font-size: 4vw;
+						box-sizing: border-box;
+						padding-right: 2vw;
+						&::after {
+							content: "";
+							width: 100%;
+							height: 2px;
+							background: linear-gradient(to right, #0464CA, #53A4FD);
+							position: absolute;
+							bottom: 0;
+						}
+					}
+					.position {
+						padding: 0 2vw;
+						height: 90%;
+						background: linear-gradient(to right,#0464CA, #3181D5);
+						color: #fff;
+						font-family: 'PingFangM';
+						font-size: 22rpx;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						border-radius: 4rpx;
+					}
+				}
+				.info-item {
+					width: 100%;
+					display: flex;
+					align-items: center;
+					font-size: 3.5vw;
+					margin: 1vw 0;
+				}
+				.danger {
+					color: #F24822;
+					font-family: 'PingFangH';
+				}
+		    .primary {
+		      color: #0464CA;
+		      font-family: 'PingFangH';
+		    }
+			}
+		}
+	}
+}
+</style>

@@ -1,0 +1,27 @@
+{
+	"pages": [
+		{
+			"path": "pages/entrance/entrance",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"navigationStyle": "custom",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+		  "path": "pages/pdf/pdf",
+		  "style": {
+		    "navigationBarTitleText": "",
+				"navigationStyle": "default",
+				"navigationBarTextStyle": "black"
+		  }
+		}
+	],
+	"globalStyle": {
+		"navigationStyle": "custom"
+	},
+	"uniIdRouter": {}
+}
+
