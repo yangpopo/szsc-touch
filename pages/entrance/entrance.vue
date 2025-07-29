@@ -1,7 +1,6 @@
 <template>
 	<view @touchstart="findInteraction">
-		<component v-bind:is="currentTabComponent" @switchComponents="switchComponents"></component>
-		<navigationPageBut v-if="isShowNav"></navigationPageBut>
+		<component style="position: relative; z-index: 1;" v-bind:is="currentTabComponent" @switchComponents="switchComponents"></component>
 		<!-- 更新弹窗 -->
 		<view class="update-popup" v-if="isShowUpdatePopup">
 			<view class="update-box">
@@ -19,6 +18,7 @@
 				</view>
 			</view>
 		</view>
+		<navigationPageBut v-if="isShowNav"></navigationPageBut>
 	</view>
 </template>
 
@@ -42,8 +42,10 @@
 	import riskStatement from '../riskStatement/riskStatement.vue' // 风险提示
 	import recallNotice from '../recallNotice/recallNotice.vue' // 风险提示
 	import system from '../system/system.vue' // 管理配置页
-	import manageCache from '../manageCache/manageCache.vue' // 管理配置页
+	import manageCache from '../manageCache/manageCache.vue' // 缓存页面
 	import complaintOpinion from '../complaintOpinion/complaintOpinion.vue' // 投诉意见
+	
+	import keymap from '@/tool/keymap.js'
 
 	export default {
 		name: "entrance",
@@ -67,19 +69,19 @@
 			system,
 			manageCache,
 			complaintOpinion,
-			
+			scanKeyData:''
 		},
 		data() {
 			return {
 				currentTabComponent: 'login',
 				timerValue: 1, // 计时器
 				timerObj: null, // 定时器
-				isShowNav: false, // 是否显示导航
 				isShowUpdatePopup: false, // 是否显示升级框
 				waitUpdateAppUrl: '', // 待更新app地址
 				downloadProgress: 0, // 下载进度
 				appInfo: null, // app信息
 				routePath: '', // 路由路径
+				entranceScanKeyData: '', // 入口扫描key数据
 			}
 		},
 		onLoad(query) {
@@ -93,17 +95,22 @@
 				this.findInteraction(); // 打开监控交互
 			}
 			
-			// 检查版本号
 			// #ifdef APP-PLUS
-			this.inspectAppUpdate()
+			this.inspectAppUpdate() // 检查版本号
+			plus.key.addEventListener("keyup", this.keypress) // 监听键盘
 			// #endif
+			
+			// // #ifdef H5
+			// document.addEventListener("keyup", this.keypress);
+			// // #endif
+			
 		},
 		watch:{
 			pageName(newVal) {
 				if (newVal == 'login' || newVal == 'configuration' || newVal == 'system' || newVal == 'manageCache' || newVal == 'home') {
-					this.isShowNav = false
+					this.updateIsShowNav(false)
 				} else {
-					this.isShowNav = true
+					this.updateIsShowNav(true)
 				}
 				this.checkQueryParams()
 			},
@@ -118,10 +125,27 @@
 			}
 		},
 		computed: {
-			...mapState(['pageName', 'openScreensaverState', 'technicalSupport', 'serviceHotline']),
+			...mapState(['pageName', 'openScreensaverState', 'technicalSupport', 'serviceHotline', 'isShowNav']),
 		},
 		methods: {
-			...mapMutations(['updataPageName', 'updateTechnicalSupport', 'updateServiceHotline']),
+			...mapMutations(['updataPageName', 'updateTechnicalSupport', 'updateServiceHotline', 'updateIsShowNav', 'updateScanKeyData']),
+			// 键盘
+			keypress(e) {
+				// console.log(e);
+				if (e.keyCode === 66 || e.key =='Enter') {
+					this.updateScanKeyData(this.entranceScanKeyData)
+					this.entranceScanKeyData = ''
+					if (this.pageName != 'securityTraceability') {
+						skipPage('securityTraceability', this)
+					} else {
+						
+					}
+				} else {
+					this.entranceScanKeyData += keymap[e.keyCode] || ''
+				}
+			},
+
+			
 			checkQueryParams(initial = false) {
 				let defaultPageName = '' // 默认页面名称
 				if (uni.getStorageSync('token')) {

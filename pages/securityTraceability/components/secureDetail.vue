@@ -113,23 +113,23 @@
 				<view class="info-list">
 					<view class="info-item">
 						<view class="title">检测日期</view>
-						<view class="content">{{ secureDetailData.samp.date }}</view>
+						<view class="content">{{ secureDetailData.samp.date || '-' }}</view>
 					</view>
 					<view class="info-item">
 						<view class="title">检测单位</view>
-						<view class="content">{{ secureDetailData.samp.samp_addr }}</view>
+						<view class="content">{{ secureDetailData.samp.samp_addr || '-' }}</view>
 					</view>
 					<view class="info-item">
 						<view class="title">监测项目</view>
-						<view class="content">{{ secureDetailData.samp.check_item }}</view>
+						<view class="content">{{ secureDetailData.samp.check_item || '-' }}</view>
 					</view>
 					<view class="info-item">
 						<view class="title">检测标准</view>
-						<view class="content">{{ secureDetailData.samp.criteria }}</view>
+						<view class="content">{{ secureDetailData.samp.criteria || '-' }}</view>
 					</view>
 					<view class="info-item">
 						<view class="title">检测依据</view>
-						<view class="content">{{ secureDetailData.samp.basis }}</view>
+						<view class="content">{{ secureDetailData.samp.basis || '-' }}</view>
 					</view>
 					<view class="info-item">
 						<view class="title">检测结果</view>
@@ -141,8 +141,6 @@
 				</view>
 			</view>
 		</maskBox>
-		
-		
 		
 		<kxjPreviewImage :saveBtn="false" ref="kxjPreviewImage" :imgs="[imageUrl]"></kxjPreviewImage>
 	</view>
@@ -181,8 +179,14 @@
 		},
 		computed: {
 		},
+		watch: {
+			goodsId(newVal) {
+				this.secureDetailData = null
+				// this.$refs.inspectionReportMask.isShow = false
+				this.getData()
+			}
+		},
 		async created() {
-			this.getData()
 		},
 		methods: {
 			// 获取数据
@@ -222,12 +226,10 @@
 			},			
 			// 预览图片
 			previewImage(data) {
-				console.log(data, '*--*---*')
 				if (!data) {
 					return
 				}
 				const pdf = data.toLowerCase().endsWith('.pdf')
-				console.log(pdf, '*-*-*-*')
 				if (pdf) {
 					uni.navigateTo({
 					  url: '/pages/pdf/pdf?url=' + data
@@ -305,10 +307,11 @@
 			
 			
 			.name {
-				font-size: 3.2vw;
+				font-size: 3vw;
 				width: 21vw;
 				text-align: right;
 				flex-shrink: 0;
+				color: rgba(25, 25, 25, 1);
 			}
 			.icon {
 				width: 15vw;
@@ -320,10 +323,10 @@
 			}
 			.title {
 				width: 100%;
-				font-size: 3.2vw;
+				font-size: 3vw;
 				.first {
-					font-size: 3.2vw;
-					color: #000;
+					font-size: 3vw;
+					color: rgba(25, 25, 25, 1);
 				}
 				.havecard{
 					color: rgba(4, 100, 202, 1);
@@ -356,13 +359,13 @@
 		}
 		.report-number {
 			text-align: left;
-			font-size: 3vw;
+			font-size: 2.8vw;
 			color: #999;
 			margin-bottom: 2vw;
 		}
 		.info-list {
 			width: 100%;
-			max-height: calc(100vh - 80vw);
+			max-height: calc(100vh - 60vw);
 			overflow-y: auto;
 			.info-item {
 				width: 100%;
@@ -372,10 +375,10 @@
 				.title {
 					width: 16vw;
 					flex-shrink: 0;
-					font-size: 3.5vw;
+					font-size: 3.2vw;
 				}
 				.content {
-					font-size: 3.5vw;
+					font-size: 3.2vw;
 					word-wrap:break-word; 
 				}
 			}

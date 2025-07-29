@@ -1,8 +1,8 @@
 <template>
 	<view class="system-management">
-		<scroll-view class="system-scroll-box" scroll-y="true" show-scrollbar="false" v-if="systemManagementData">
-			<articleListItem v-for="item in systemManagementData" :key="item.article_id" @bubblingClick="openDetails(item)">
-				<image class="cover" :src="item.touch_thumbArr[0]" mode="aspectFill"></image>
+		<scroll-view class="system-scroll-box" scroll-y="true" show-scrollbar="false" v-if="systemManagementData && systemManagementData.length != 0" @scroll="scrollChanges">
+			<articleListItem v-for="(item, index) in systemManagementData" :key="item.article_id" @bubblingClick="openDetails(item)">
+				<image class="cover" :src="item.touch_thumbArr[0] || defaultDocument" mode="aspectFill" @error="errorImage($event, index)"></image>
 				<view class="info">
 					<view class="title">{{ item.title }}</view>
 					<view class="info-list">
@@ -21,7 +21,7 @@
 	import { mapState, mapMutations } from 'vuex'
 	import nullDataState from '@/components/nullDataState'
 	import articleListItem from '@/components/articleListItem'
-
+	import defaultDocument from '@/assets/imgs/default-document.png'
 	
 	
 	export default {
@@ -33,6 +33,7 @@
 		data() {
 			return {
 				systemManagementData: null, // 承诺内容
+				defaultDocument,
 			}
 		},
 		computed: {
@@ -74,7 +75,15 @@
 			openDetails(detailsData) {
 				this.updataRichTextData(detailsData)
 				this.$emit('selectedMenu', 'richTextDetails')
-			}
+			},
+			
+			scrollChanges(e) {
+				console.log(e, '***---***')
+			},
+			// 图片加载错误
+			errorImage(err, index) {
+				this.systemManagementData[index].touch_thumbArr[0] = defaultDocument
+			},
 		}
 	}
 </script>

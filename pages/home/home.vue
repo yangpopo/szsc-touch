@@ -19,8 +19,8 @@
 			</view>
 			<view class="container">
 				<view class="item" :class="`item${index+1}`" v-for="(item, index) in menuData" :key="index" @click="skipPage(item.url)">
-					<image :src="item.icon"></image>
-					<view class="">{{item.name}}</view>
+					<image class="icon" :src="item.icon"></image>
+					<view class="name">{{item.name}}</view>
 				</view>
 			</view>
 
@@ -157,7 +157,9 @@
 				// 先过滤HTML标签
 				let result = str.replace(/<\/?[^>]+(>|$)/g, '');
 				// 再去除所有空格（包括连续空格）
-				return result.replace(/\s+/g, '');
+				result = result.replace(/\s+/g, '')
+				result = result.replace(/&nbsp;/g, '')
+				return result;
 			},
 			// 跳转页面
 			skipPage(val) {
@@ -270,9 +272,13 @@
 				font-family: 'PingFangH';
 				font-size: 22rpx;
 
-				image {
+				.icon {
 					width: 80rpx;
 					height: 80rpx;
+				}
+				.name {
+					font-size: 2.6vw;
+					color: #fff;
 				}
 			}
 

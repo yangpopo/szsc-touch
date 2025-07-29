@@ -1,6 +1,7 @@
 <template>
 	<view>
-		<web-view :src="pdfUrl"></web-view>
+		<uni-nav-bar class="nav-bar" shadow right-text="返回" :border="false" title="预览PDF" @clickRight="exitReturn"></uni-nav-bar>
+		<web-view :src="pdfUrl" :fullscreen="false" :webview-styles="webviewStyles" :update-title="false"></web-view>
 	</view>
 </template>
 
@@ -9,6 +10,10 @@
 		data() {
 			return {
 				pdfUrl:'',
+				webviewStyles: {
+					top: 45,
+					zIndex: 1
+				}
 			}
 		},
 		onLoad(e) {
@@ -23,11 +28,18 @@
       console.log(this.pdfUrl);
 		},
 		methods: {
-			
+			exitReturn() {
+				uni.navigateBack({
+					delta: 1
+				})
+			}
 		}
 	}
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.nav-bar{
+	position: relative;
+	z-index: 2;
+}
 </style>

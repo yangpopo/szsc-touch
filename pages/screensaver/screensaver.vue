@@ -31,13 +31,8 @@
 </template>
 
 <script>
-	import {
-		skipPage
-	} from '@/tool/tool.js'
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
+	import { skipPage } from '@/tool/tool.js'
+	import { mapState, mapMutations } from 'vuex'
 
 	export default {
 		name: "screensaver",
@@ -252,6 +247,7 @@
 	    margin: 0 10rpx;
 	    color: rgba(255, 255, 255, .8);
 	    font-family: 'PingFangM';
+			font-size: 2.5vw;
 	  }
 	}
 </style>

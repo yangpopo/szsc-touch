@@ -9,11 +9,13 @@
 			<view class="form_box">
 				<view class="pass_box">
 					<view class="input_box">
-						<image src="@/assets/imgs/username.png" class="user"></image>
+						<!-- <image src="@/assets/imgs/username.png" class="user"></image> -->
+						<view class="user"></view>
 						<input v-model="form.username" placeholder="请输入登录账号" />
 					</view>
 					<view class="input_box">
-						<image src="@/assets/imgs/password.png" class="pass"></image>
+						<!-- <image src="@/assets/imgs/password.png" class="pass"></image> -->
+						<view class="pass"></view>
 						<input v-model="form.password" type="password" placeholder="请输入密码" />
 					</view>
 					<view class="remember">
@@ -207,9 +209,17 @@
 							margin-left: 30rpx;
 						}
 
-						image {
+						.user {
 							width: 50rpx;
 							height: 50rpx;
+							background-image: url('@/assets/imgs/username.png');
+							background-size: 100% 100%;
+						}
+						.pass {
+							width: 50rpx;
+							height: 50rpx;
+							background-image: url('@/assets/imgs/password.png');
+							background-size: 100% 100%;
 						}
 					}
 

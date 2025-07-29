@@ -17,7 +17,7 @@
 							</template>
 							<template v-else-if="itemTr.prop == 'customize'">{{ itemTr.renderFun(itemTd) }}</template>
 							<template v-else>
-								<template v-if="itemTd[itemTr.prop] !== ''">
+								<template v-if="itemTd[itemTr.prop]">
 									<tableTips :tipsData="itemTd[itemTr.prop]" :maxCharacter="itemTr.maxCharacter"></tableTips>
 								</template>
 								<template v-else>-</template>
@@ -57,7 +57,7 @@
 			},
 			height: {
 				type: String,
-				default: ''
+				default: '0vw'
 			}
 		},
 		data() {
@@ -128,8 +128,8 @@
 			.table-head-th {
 				box-sizing: border-box;
 				min-width: 15vw;
-				min-height: 12vw;
-				padding: 1.8vw 2.3vw;
+				min-height: 10vw;
+				padding: 1.2vw 2.3vw;
 				display: flex;
 				justify-content: center;
 				align-items: center;
@@ -167,9 +167,9 @@
 				.table-main-td {
 					box-sizing: border-box;
 					min-width: 15vw;
-					min-height: 12vw;
+					min-height: 10vw;
 					box-sizing: border-box;
-					padding: 1.5vw 2.3vw;
+					padding: 1vw 2.3vw;
 					color: #555;
 					font-size: 2.8vw;
 					font-family: "PingFangM";

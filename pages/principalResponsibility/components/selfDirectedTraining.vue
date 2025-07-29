@@ -1,7 +1,7 @@
 <template>
 	<scroll-view scroll-y="true" class="self-directed-training">
-		<template v-if="selfDirectedTrainingData">
-			<image class="image-item" :src="signItem"  v-for="(signItem, index) in selfDirectedTrainingData.signArr" :key="signItem" mode="widthFix" @click="previewImage(signItem)"></image>
+		<template v-if="selfDirectedTrainingData && selfDirectedTrainingData.signArr.length != 0">
+			<image class="image-item" :src="signItem" v-for="(signItem, index) in selfDirectedTrainingData.signArr" :key="signItem" mode="widthFix" @click="previewImage(signItem)"></image>
 		</template>
 		<nullDataState v-else></nullDataState>
 		<kxjPreviewImage :saveBtn="false" ref="kxjPreviewImage" :imgs="[imageUrl]"></kxjPreviewImage>

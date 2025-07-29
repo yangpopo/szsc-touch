@@ -1,6 +1,9 @@
 <template>
 	<view class="input-box">
-		<input class="input" :disabled="disabled" :value="value" @input="$emit('input', $event.target.value)" :placeholder="placeholder" placeholder-class="placeholder"/>
+		<view class="input-dom">
+			<input class="input" :disabled="disabled" :value="value" @input="$emit('input', $event.target.value)" :placeholder="placeholder" placeholder-class="placeholder" confirm-type="查询" @confirm="confirmClick"/>
+			<view class="uni-icons uniui-clear" v-if="value" @click="clean"></view>
+		</view>
 		<view class="but" @click="confirmClick">
 			<view class="icon"></view>
 			<!-- <image class="icon" src="@/assets/imgs/search.png" mode="aspectFit"></image> -->
@@ -42,6 +45,10 @@
 					return
 				}
 				this.$emit('confirm')
+			},
+			clean() {
+				this.$emit('input', '')
+				this.$emit('confirm')
 			}
 		}
 	}
@@ -62,19 +69,47 @@
 		width: 4vw;
 		height: 8.5vw;
 		margin-right: - 1px;
+		flex-shrink: 0;
 	}
-	.input{
-		width: 46vw;
+	.input-dom {
+		width: calc(100% - 4vw - 20vw);
 		height: 8.5vw;
 		line-height: 8.5vw;
-		position: relative;
 		background-color: #fff;
-		box-sizing: border-box;
-		padding: 0.6vw 2vw;
 		position: relative;
-		color: #555;
-		font-size: 3vw;
+		.input{
+			width: calc(100% - 5vw - 2vw);
+			height: 8.5vw;
+			line-height: 8.5vw;
+			position: relative;
+			box-sizing: border-box;
+			padding: 0.6vw 2vw;
+			// position: relative;
+			color: #555;
+			font-size: 3vw;
+			// background-color: #53A4FD;
+		}
+		.uni-icons {
+			position: absolute;
+			top: 50%;
+			right: 1vw;
+			width: 5.5vw;
+			height: 5.5vw;
+			font-family: uniicons;
+			transform: translateY(-50%);
+			// background-color: #53A4FD;
+			&:before {
+				content: "\e66d";
+				font-size: 5.5vw;
+				color: rgb(192, 196, 204);
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+		}
 	}
+	
 	
 	.but {
 		display: flex;
@@ -82,6 +117,7 @@
 		align-items: center;
 		background-color: #53A4FD;
 		box-sizing: border-box;
+		width: 20vw;
 		height: 8.5vw;
 		padding: 1vw 2vw;
 		border-radius: 0 0.8vw 0.8vw 0;

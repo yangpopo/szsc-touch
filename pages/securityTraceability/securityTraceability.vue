@@ -1,6 +1,6 @@
 <template>
 	<detailsPage>
-		<menuNavigation mode="customize" v-if="currentComponent == null">
+		<menuNavigation mode="customize" v-show="currentComponent == null">
 			<template #head>
 				<dropDown class="drop-down-box" :options="options" v-model="queryType" :defaultValue="queryType" @change="queryTypeChange"></dropDown>
 			</template>
@@ -14,18 +14,18 @@
 				</template>
 				
 				<template v-else-if="queryType == '时间筛选'">
-					<inputDateBox class="input-box" v-model="query.src_date" placeholder="请选择日期" @confirm="keywordQuery"></inputDateBox>
+					<inputDateBox class="input-box" :end="endDate" v-model="query.src_date" placeholder="请选择日期" @confirm="keywordQuery"></inputDateBox>
 				</template>
 				
 			</template>
 		</menuNavigation>
-		<view class="security-traceability" v-if="currentComponent == null">
+		<view class="security-traceability" v-show="currentComponent == null">
 			<tableCustomize :data="securityTraceabilityData.data" :indexStarting="(query.page - 1) * query.size" :height="tableHeight" :option="securityTraceabilityOption" @queryClick="tableQueryDetails"></tableCustomize>
 			
 			<paginationCustomize :size="query.size" :current="query.page" :total="securityTraceabilityData.total" @change="queryChange" ></paginationCustomize>
 			
 		</view>
-		<secureDetail :goodsId="goodsId" v-else></secureDetail>
+		<secureDetail :goodsId="goodsId" v-show="currentComponent != null"></secureDetail>
 	</detailsPage>
 </template>
 
@@ -119,14 +119,21 @@
 				selfRootRoute: 'securityTraceability',
 				currentComponent: null,
 				goodsId: null,
-				
+				endDate: '', // 结束日期
 			}
 		},
 		computed: {
-			...mapState(['routeInfo'])
+			...mapState(['routeInfo', 'scanKeyData'])
 		},
 		async created() {
-			this.tableHeight = `calc(100vh - 41vw - 20vw - 23vw)`
+			// console.log('扫码的值:', this.scanKeyData)
+			if (this.scanKeyData) {
+				this.queryType = '扫码查询'
+				this.query.pword = this.scanKeyData
+				this.updateScanKeyData('')
+			}
+			this.endDate = formatDate(new Date())
+			this.tableHeight = `calc(100vh - 41vw - 20vw - 20vw)`
 			const securityTraceabilityData = uni.getStorageSync('securityTraceabilityData') || null;
 			if (securityTraceabilityData) {
 				lazyLoadCache(() => {
@@ -142,10 +149,17 @@
 					this.currentComponent = null
 					this.updataRichTextData(null)
 				}
+			},
+			scanKeyData(newVal) {
+				if (newVal) {
+					this.queryType = '扫码查询'
+					this.query.pword = newVal
+					this.updateScanKeyData('')
+				}
 			}
 		},
 		methods: {
-			...mapMutations(['updataRouteInfo', 'updataRichTextData']),
+			...mapMutations(['updataRouteInfo', 'updataRichTextData', 'updateScanKeyData']),
 			// 查询类型发生变化
 			queryTypeChange(data) {
 				this.query = {
@@ -194,7 +208,7 @@
 	// padding: 3vw 0 0 0;
 }
 .input-box {
-	width: calc(100% - 0vw);
+	width: 67vw;
 }
 .security-traceability {
 	width: 100vw;

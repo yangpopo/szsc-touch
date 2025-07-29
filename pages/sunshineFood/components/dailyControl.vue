@@ -9,37 +9,56 @@
 						<view class="dayname">{{ item.title }}</view>
 					</view>
 					<view class="daymain" v-for="(ite, ind) in item.child" :key="ite.toString() + ind">
-						<view class="dayDesc" v-if="ite.item_type != 0">
-							<view class="dayLabel">检查内容:</view>
-							<view class="desc">{{ite.item_content || '暂无内容'}}</view>
-						</view>
-						<view class="dayDesc" v-if="ite.prj_item_desc">
-							<view class="dayLabel">说明:</view>
-							<view class="desc desc2">{{ ite.prj_item_desc }}</view>
-						</view>
-						<!-- radio and judgment -->
-						<view class="dayAns" v-if="ite.item_type == 1 || ite.item_type == 2">
-							<view class="dayLabel">检查情况:</view>
-							<view class="ans">
-								<view :class="['ansItem', ite.content == inn ? 'active' : '']"
-									v-for="(itt, inn) in JSON.parse(ite.item_results)" :key="itt.toString() + inn">{{ itt }}</view>
+						<template v-if="ite.item_kind == 0">
+							<view class="dayDesc" v-if="ite.item_type != 0">
+								<view class="dayLabel">检查内容:</view>
+								<view class="desc">{{ite.item_content || '暂无内容'}}</view>
 							</view>
-						</view>
-						<!-- input -->
-						<view class="dayAns" v-if="ite.item_type == 0">
-							<view class="dayLabel">填写内容:</view>
-							<view class="ans">{{ ite.content }}</view>
-						</view>
-						<!-- checkbox -->
-						<view class="dayAns" v-if="ite.item_type == 3">
-							<view class="dayLabel">检查情况:</view>
-							<view class="ans">
-								<view :class="['ansItem', ite.content.split(',').includes(inn) ? 'active' : '']"
-									v-for="(itt, inn) in JSON.parse(ite.item_results)" :key="inn">{{ itt }}</view>
+							<view class="dayDesc" v-if="ite.prj_item_desc">
+								<view class="dayLabel">说明:</view>
+								<view class="desc desc2">{{ ite.prj_item_desc }}</view>
 							</view>
-						</view>
+							<!-- radio and judgment -->
+							<view class="dayAns" v-if="ite.item_type == 1 || ite.item_type == 2">
+								<view class="dayLabel">检查情况:</view>
+								<view class="ans">
+									<view :class="['ansItem', ite.content == inn ? 'active' : '']"
+										v-for="(itt, inn) in JSON.parse(ite.item_results)" :key="itt.toString() + inn">{{ itt }}</view>
+								</view>
+							</view>
+							<!-- input -->
+							<view class="dayAns" v-if="ite.item_type == 0">
+								<view class="dayLabel">填写内容:</view>
+								<view class="ans">{{ ite.content }}</view>
+							</view>
+							<!-- checkbox -->
+							<view class="dayAns" v-if="ite.item_type == 3">
+								<view class="dayLabel">检查情况:</view>
+								<view class="ans">
+									<view :class="['ansItem', ite.content.split(',').includes(inn) ? 'active' : '']"
+										v-for="(itt, inn) in JSON.parse(ite.item_results)" :key="inn">{{ itt }}</view>
+								</view>
+							</view>
+						</template>
+						<template v-else>
+							<view class="dayAns" v-if="ite.item_type !== 0" style="justify-content: center">
+								<view class="ans">
+									<view :class="['ansItem', ite.content.split(',').includes(inn) ? 'active' : '']"
+										v-for="(itt, inn) in JSON.parse(ite.item_results)" :key="inn">{{ itt }}</view>
+								</view>
+							</view>
+							<!-- 填写 -->
+							<view class="option-list" v-else-if="ite.item_type == 0" style="padding: 1.5vw 2vw; border: 1px solid #ddd; width: 100%; border-radius: 1vw; font-size: 3.5vw;">
+								{{ ite.content }}
+							</view>
+							<!-- <view class="dayDesc" v-if="ite.prj_item_desc">
+								<view class="dayLabel">说明:</view>
+								<view class="desc desc2">{{ ite.prj_item_desc }}</view>
+							</view> -->
+						</template>
 					</view>
 				</view>
+				<view class="gap" style="width: 100%; height: 3vw;"></view>
 			</scroll-view>
 		</template>
 		<nullDataState v-else></nullDataState>
@@ -132,11 +151,14 @@
 			color: #000;
 			margin: 0 0 2vw 0;
 			text-align: center;
+			box-shadow: 0 0 1vw rgba(4, 100, 202, 0.5);
+			box-sizing: border-box;
+			padding: 1vw;
 		}
 
 		.scroll-box {
 			width: 100%;
-			height: calc(100vh - 74vw);
+			height: calc(100vh - 76vw);
 
 			.day-item {
 				width: 98%;
@@ -190,7 +212,7 @@
 					}
 
 					.desc {
-						color: #ccc;
+						color: #333;
 						width: calc(100% - 150rpx);
 						font-size: 24rpx;
 					}

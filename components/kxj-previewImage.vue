@@ -48,6 +48,10 @@
 </template>
 
 <script>
+	import { mapState, mapMutations } from 'vuex'
+	
+	
+	
 export default {
 	name: 'ksj-previewImage', //插件名称
 	props: {
@@ -99,7 +103,17 @@ export default {
 			scale: 0.8 //缩放比例
 		};
 	},
+	watch: {
+		show(newVal) {
+			if (newVal) {
+				this.updateIsShowNav(false)
+			} else {
+				this.updateIsShowNav(true)
+			}
+		}
+	},
 	methods: {
+		...mapMutations(['updateIsShowNav']),
 		//比例变化
 		onScale(e) {
 			
@@ -269,14 +283,14 @@ export default {
 <!--使用scss,只在本组件生效-->
 <style lang="scss" scoped>
 .previewImage {
-	z-index: 999;
-	position: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
 	height: 100%;
 	background-color: #000000;
 	user-select: none;
+	z-index: 999;
+	position: fixed;
 	.swiper {
 		width: 100%;
 		height: 100%;

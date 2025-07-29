@@ -6,9 +6,9 @@
 			</template>
 		</menuNavigation>
 		<view class="manager">
-			<scroll-view class="scroll-box" :scroll-y="true" :show-scrollbar="false" v-if="managerData.length">
+			<scroll-view class="scroll-box" :scroll-y="true" :show-scrollbar="false" v-if="managerData && managerData.length">
 				<view class="item" v-for="(managerItem,index) in managerData" :key="managerItem.job_id">
-					<image class="profile-picture" :src="managerItem.avatarArr[0]" mode="aspectFill"></image>
+					<image class="profile-picture" :src="managerItem.avatarArr[0] || defaultAvatar" mode="aspectFill"></image>
 					<view class="info-box">
 						<view class="name-box">
 							<view class="name">{{managerItem.person_name}}</view>
@@ -19,6 +19,7 @@
 						<view class="info-item">健康证: <text class="primary" v-if="managerItem.health_url" @click="previewImage(managerItem.health_url)">查看</text> <text class="danger" v-if="!managerItem.health_url">暂无</text></view>
 					</view>
 				</view>
+				<view class="gap" style="width: 100%; height: 3vw;"></view>
 			</scroll-view>
 			<nullDataState v-else></nullDataState>
 		</view>
@@ -33,6 +34,7 @@
 	import menuNavigation from '@/components/menuNavigation.vue' // 选择标签菜单
 	import kxjPreviewImage from '@/components/kxj-previewImage'
 	import nullDataState from '@/components/nullDataState'
+	import defaultAvatar from '@/assets/imgs/default-avatar.png'; 
 	
 	
 	export default {
@@ -46,6 +48,7 @@
 		data() {
 			return {
 				managerData: [],
+				defaultAvatar,
 				imageUrl: ''
 			}
 		},

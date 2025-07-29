@@ -1,11 +1,12 @@
 <template>
 	<view class="subject-commitment">
 		<template v-if="subjectCommitmentData">
-			<titleStyle class="title">永辉超市</titleStyle>
+			<titleStyle class="title" :fontSize="4.5">{{ subjectCommitmentData.shop_name ||'-' }}</titleStyle>
 			<view class="subtitle">{{ subjectCommitmentData.title }}</view>
-			<scroll-view class="scroll-rich" scroll-y="true" >
+			<scroll-view class="scroll-rich" scroll-y="true" v-if="subjectCommitmentData.content">
 				<rich-text class="rich-text-box" :nodes="subjectCommitmentData.content" space="nbsp"></rich-text>
 			</scroll-view>
+			<nullDataState v-else></nullDataState>
 		</template>
 		<nullDataState v-else></nullDataState>
 	</view>

@@ -1,6 +1,8 @@
 <template>
 	<view class="input-date-box">
-		<uni-datetime-picker class="input" :disabled="disabled" :type="type" :value="currentValue" :start="start" :end="end" @change="change" :placeholder="placeholder" :return-type="returnType" />
+		<view class="input-box">
+			<uni-datetime-picker class="input" :disabled="disabled" :type="type" :value="currentValue" :start="start" :end="end" @change="change" :placeholder="placeholder" :return-type="returnType" />
+		</view>
 		<view class="but" @click="confirmClick">
 			<view class="icon"></view>
 			<!-- <image class="icon" src="@/assets/imgs/search.png" mode="aspectFit"></image> -->
@@ -52,7 +54,7 @@
 		methods: {
 			change(data) {
 				this.$emit('input', data)
-				this.$emit('change')
+				this.$emit('confirm')
 			},
 			confirmClick() {
 				if (this.readonly) {
@@ -79,29 +81,37 @@
 		width: 4vw;
 		height: 8.5vw;
 		margin-right: - 1px;
+		flex-shrink: 0;
 	}
-	.input{
-		width: 46vw;
+	.input-box{
+		width: calc(100% - 4vw - 20vw);
 		height: 8.5vw;
 		line-height: 8.5vw;
 		position: relative;
 		background-color: #fff;
 		box-sizing: border-box;
+		background-color: #53A4FD;
 		// position: relative;
 		color: #555;
-		font-size: 3.8vw;
-		padding-right: 2vw;
+		font-size: 3vw;
+		// padding-right: 2vw;
+		.input {
+			width: 100%;
+		}
 		::v-deep .uni-date-x--border {
 			border: none;
 			border-radius: 0;
 		}
 		::v-deep .uni-date-x {
-			font-size: 3.8vw;
 			border-radius: 0;
 		}
 		::v-deep .uni-date__x-input {
 			height: 8.5vw;
 			line-height: 8.5vw;
+			font-size: 3vw;
+		}
+		::v-deep .uni-date__icon-clear {
+			background-color: #fff;
 		}
 	}
 	
@@ -111,6 +121,7 @@
 		align-items: center;
 		background-color: #53A4FD;
 		box-sizing: border-box;
+		width: 20vw;
 		height: 8.5vw;
 		padding: 1vw 2vw;
 		border-radius: 0 0.8vw 0.8vw 0;

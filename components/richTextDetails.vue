@@ -34,21 +34,30 @@
 			...mapState(['richTextData']),
 			contentData() {
 				if (this.richTextData) {
+					this.updateHeight()
 					return handleHideCharacterDisplay(this.richTextData.content)
 				}
+				return ''
 			}
 		},
 		async created() {
 		},
 		mounted() {
-			uni.createSelectorQuery().in(this)
-			  .select('#titleStyle')
-			  .boundingClientRect(res => {
-					this.titleStyleHeight = res.height
-			  })
-			  .exec()
+			
 		},
 		methods: {
+			updateHeight() {
+				this.$nextTick(() => {
+					uni.createSelectorQuery().in(this)
+					  .select('#titleStyle')
+					  .boundingClientRect(res => {
+							if (res) {
+								this.titleStyleHeight = res.height
+							}
+					  })
+					  .exec()
+				})
+			}
 		}
 	}
 </script>
@@ -56,7 +65,7 @@
 <style lang="scss" scoped>
 .rich-text-details {
 	width: 100vw;
-	height: 100%;
+	height: calc(100%);
 	position: relative;
 	box-sizing: border-box;
 	

@@ -127,7 +127,7 @@
 							flex-shrink: 0;
 							width: 3vw;
 							display: block;
-							border-radius: 3vw 0 0 0;
+							border-radius: 2vw 0 0 0;
 							background-color: #fff;
 						}
 						&:after {
@@ -151,7 +151,7 @@
 							flex-shrink: 0;
 							width: 3vw;
 							display: block;
-							border-radius: 0 3vw 0 0;
+							border-radius: 0 2vw 0 0;
 							background-color: #fff;
 						}
 					}

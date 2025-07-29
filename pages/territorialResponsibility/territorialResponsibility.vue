@@ -12,10 +12,11 @@
 					<view class="info-item">职务: {{ territorialResponsibilityData.job_name }}</view>
 					<view class="info-item">电话: {{ territorialResponsibilityData.tel }}</view>
 				</view>
-				<view class="picture-list">
+				<view class="picture-list" v-if="territorialResponsibilityData.pdf_urlArr.length != 0">
 					<image class="picture-item" :src="pdfUrlItem" v-for="(pdfUrlItem, index) in territorialResponsibilityData.pdf_urlArr" :key="index" @click="previewImage(pdfUrlItem)" mode="widthFix">
 					</image>
 				</view>
+				<nullDataState v-else></nullDataState>
 			</scroll-view>
 			<nullDataState v-else></nullDataState>
 		</view>
@@ -24,21 +25,12 @@
 </template>
 
 <script>
-	import {
-		formatDate,
-		lazyLoadCache,
-		pageSelectedMenu
-	} from '@/tool/tool.js'
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
+	import { formatDate, lazyLoadCache, pageSelectedMenu } from '@/tool/tool.js'
+	import { mapState, mapMutations } from 'vuex'
 	import detailsPage from '@/components/detailsPage.vue' // 默认页面
 	import menuNavigation from '@/components/menuNavigation.vue' // 选择标签菜单
 	import nullDataState from '@/components/nullDataState'
 	import kxjPreviewImage from '@/components/kxj-previewImage'
-
-
 
 
 	export default {

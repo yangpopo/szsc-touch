@@ -1,10 +1,10 @@
 <template>
 	<view class="title-style">
-		<image class="icon-image" v-if="mode == 'dark'" src="@/assets/imgs/marketl.png" mode="heightFix"></image>
-		<image class="icon-image" v-else-if="mode == 'bright'" src="@/assets/imgs/marketl-bright.png" mode="heightFix"></image>
+		<view class="icon-image dark-l" v-if="mode == 'dark'"></view>
+		<view class="icon-image bright-l" v-else-if="mode == 'bright'"></view>
 		<view class="title" :style="{'fontSize': fontSize + 'vw', color: fontColor}"><slot></slot></view>
-		<image class="icon-image" v-if="mode == 'dark'" src="@/assets/imgs/marketr.png" mode="heightFix"></image>
-		<image class="icon-image" v-else-if="mode == 'bright'" src="@/assets/imgs/marketr-bright.png" mode="heightFix"></image>
+		<view class="icon-image dark-r" v-if="mode == 'dark'"></view>
+		<view class="icon-image bright-r" v-else-if="mode == 'bright'"></view>
 	</view>
 </template>
 
@@ -50,6 +50,23 @@
 	align-items: center;
 	.icon-image {
 		height: 3vw;
+		width: calc(50% - 0px);
+		&.dark-l {
+			background-image: url('@/assets/imgs/marketl.png');
+			background-size: 100% 100%;
+		}
+		&.bright-l {
+			background-image: url('@/assets/imgs/marketl-bright.png');
+			background-size: 100% 100%;
+		}
+		&.dark-r {
+			background-image: url('@/assets/imgs/marketr.png');
+			background-size: 100% 100%;
+		}
+		&.bright-r {
+			background-image: url('@/assets/imgs/marketr-bright.png');
+			background-size: 100% 100%;
+		}
 	}
 	.title {
 		word-wrap: break-word; /* IE */

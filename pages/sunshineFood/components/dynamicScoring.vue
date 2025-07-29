@@ -1,6 +1,6 @@
 <template>
 	<view class="dynamic-scoring">
-		<template v-if="dynamicScoringData">
+		<template v-if="dynamicScoringData && dynamicScoringData.data.length != 0">
 			<view class="title">{{ dynamicScoringData.data[0].shop_name }}</view>
 			<tableCustomize :data="dynamicScoringData.data" :indexStarting="(query.page - 1) * query.size" :height="tableHeight" :option="dynamicScoringOption" ></tableCustomize>
 			<paginationCustomize :size="query.size" :current="query.page" :total="dynamicScoringData.total" @change="queryChange" ></paginationCustomize>

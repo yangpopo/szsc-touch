@@ -1,48 +1,38 @@
 <template>
 	<detailsPage>
-		<template v-if="richTextDetails != 'richTextDetails'">
-			<menuNavigation mode="customize">
-				<template #head>
-					<view class="head-title">法律法规</view>
-				</template>
-				<template #foot>
-					<inputBox class="input-box" v-model="query.pword" placeholder="输入需要查询的商品名称" @confirm="queryData"></inputBox>
-				</template>
-			</menuNavigation>
-			
-			<view class="laws-and-regulations">
-				<template v-if="lawsAndRegulationsData != null">
-					<scroll-view class="scroll-box" :scroll-y="true" :show-scrollbar="false">
-						<articleListItem v-for="item in lawsAndRegulationsData" :key="item.article_id" @bubblingClick="openDetails(item)">
-							<image class="cover" :src="item.touch_thumbArr[0]" mode="aspectFill"></image>
-							<view class="info">
-								<view class="title">{{ item.title }}</view>
-								<view class="info-list">
-									<view class="info-item">状态：<text class="tag ordinary">正常</text></view>
-									<view class="info-item">时间：{{ item.date }}</view>
-								</view>
+		<menuNavigation mode="customize" v-show="richTextDetails != 'richTextDetails'">
+			<template #head>
+				<view class="head-title">法律法规</view>
+			</template>
+			<template #foot>
+				<inputBox class="input-box" v-model="query.pword" placeholder="输入您要了解的法律法规" @confirm="queryData"></inputBox>
+			</template>
+		</menuNavigation>
+		
+		<view class="laws-and-regulations" v-show="richTextDetails != 'richTextDetails'">
+			<template v-if="lawsAndRegulationsData && lawsAndRegulationsData.length != 0">
+				<scroll-view class="scroll-box" :scroll-y="true" :show-scrollbar="false">
+					<articleListItem v-for="(item, index) in lawsAndRegulationsData" :key="item.article_id" @bubblingClick="openDetails(item)">
+						<image class="cover" :src="item.touch_thumbArr[0] || defaultDocument" mode="aspectFill" @error="errorImage($event, index)"></image>
+						<view class="info">
+							<view class="title">{{ item.title }}</view>
+							<view class="info-list">
+								<view class="info-item">状态：<text class="tag ordinary">正常</text></view>
+								<view class="info-item">时间：{{ item.date }}</view>
 							</view>
-						</articleListItem>
-						
-					</scroll-view>
-				</template>
-				<nullDataState v-else></nullDataState>
-			</view>
-		</template>
-		<richTextDetails v-else ></richTextDetails>
+						</view>
+					</articleListItem>
+				</scroll-view>
+			</template>
+			<nullDataState v-else></nullDataState>
+		</view>
+		<richTextDetails v-show="richTextDetails == 'richTextDetails'" ></richTextDetails>
 	</detailsPage>
 </template>
 
 <script>
-	import {
-		formatDate,
-		lazyLoadCache,
-		pageSelectedMenu
-	} from '@/tool/tool.js'
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
+	import { formatDate, lazyLoadCache, pageSelectedMenu } from '@/tool/tool.js'
+	import { mapState, mapMutations } from 'vuex'
 	import detailsPage from '@/components/detailsPage.vue' // 默认页面
 	import menuNavigation from '@/components/menuNavigation.vue' // 选择标签菜单
 	import dropDown from '@/components/dropDown.vue'
@@ -51,9 +41,7 @@
 	import nullDataState from '@/components/nullDataState'
 	import articleListItem from '@/components/articleListItem'
 	import richTextDetails from '@/components/richTextDetails.vue' // 富文本详情
-
-
-
+	import defaultDocument from '@/assets/imgs/default-document.png'
 
 	export default {
 		name: "lawsAndRegulations",
@@ -76,7 +64,8 @@
 					pword: '',
 				},
 				lawsAndRegulationsData: null,
-				richTextDetails: null
+				richTextDetails: null,
+				defaultDocument,
 			}
 		},
 		computed: {
@@ -140,7 +129,11 @@
 			openDetails(data) {
 				this.updataRichTextData(data)
 				pageSelectedMenu('richTextDetails', this)
-			}
+			},
+			// 图片加载错误
+			errorImage(err, index) {
+				this.lawsAndRegulationsData[index].touch_thumbArr[0] = defaultDocument
+			},
 		}
 	}
 </script>
@@ -167,6 +160,10 @@
 			transform: translate(-50%, -50%);
 			border-radius: 5rpx;
 		}
+	}
+	
+	.input-box {
+		width: 72.5vw;
 	}
 
 	.laws-and-regulations {

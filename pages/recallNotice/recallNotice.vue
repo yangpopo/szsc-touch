@@ -16,11 +16,7 @@
 </template>
 
 <script>
-	import {
-		formatDate,
-		lazyLoadCache,
-		pageSelectedMenu
-	} from '@/tool/tool.js'
+	import { formatDate, lazyLoadCache, pageSelectedMenu } from '@/tool/tool.js'
 	import {
 		mapState,
 		mapMutations

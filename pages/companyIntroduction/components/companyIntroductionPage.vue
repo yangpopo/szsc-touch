@@ -117,10 +117,10 @@
 	}
 	.honor-wall {
 		width: 100%;
-		height: 31vw;
+		height: 29vw;
 		.honor-item {
 			width: 33.33%;
-			height: 31vw;
+			height: 29vw;
 			.honor-image {
 				display: block;
 				width: calc(100% - 2vw);

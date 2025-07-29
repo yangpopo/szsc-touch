@@ -24,15 +24,8 @@
 </template>
 
 <script>
-	import {
-		formatDate,
-		lazyLoadCache,
-		pageSelectedMenu
-	} from '@/tool/tool.js'
-	import {
-		mapState,
-		mapMutations
-	} from 'vuex'
+	import { formatDate, lazyLoadCache, pageSelectedMenu } from '@/tool/tool.js'
+	import { mapState, mapMutations } from 'vuex'
 	import detailsPage from '@/components/detailsPage.vue' // 默认页面
 	import menuNavigation from '@/components/menuNavigation.vue' // 选择标签菜单
 	import dropDown from '@/components/dropDown.vue'
@@ -109,8 +102,8 @@
 				}, {
 					prop: 'criteria',
 					label: '判断标准',
-					maxWidth: 25,
-					maxCharacter: 5,
+					maxWidth: 45,
+					maxCharacter: 18,
 					butText: '查询',
 				}, {
 					prop: 'basis',
@@ -192,7 +185,7 @@
 	}
 
 	.input-box {
-		width: calc(100% - 0vw);
+		width: 67vw;
 	}
 
 	.food-safety-testing {

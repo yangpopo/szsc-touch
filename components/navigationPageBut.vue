@@ -80,7 +80,7 @@
 	width: 50rpx;
 	height: 70vh;
 	pointer-events: none;
-	z-index: 10;
+	z-index: 2;
 }
 .suspension-box {
 	pointer-events: auto;

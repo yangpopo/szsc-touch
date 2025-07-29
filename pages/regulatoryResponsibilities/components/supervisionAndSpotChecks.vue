@@ -169,13 +169,15 @@
 	height: calc(100%);
 	position: relative;
 	box-sizing: border-box;
-	padding: 3vw 3vw 0 3vw;
+	padding: 3vw 0 0 0;
 	.input-search-box {
 	  width: 100%;
 	  height: 9vw;
 	  display: flex;
 	  align-items: center;
 		margin-bottom: 2vw;
+		box-sizing: border-box;
+		padding: 0 3vw;
 	
 	  .input {
 	    width: 82%;
@@ -187,7 +189,7 @@
 	  }
 	
 	  .search-but {
-	    width: 18vw;
+	    width: 20vw;
 	    height: 100%;
 	    background-color: #53A4FD;
 	    display: flex;

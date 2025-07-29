@@ -1,10 +1,11 @@
 <template>
 	<view class="risk-level">
 		<template v-if="riskLevelData">
-			<titleStyle class="title-box">本次风险评定:{{ riskLevelData.level_name }}级</titleStyle>
-			<scroll-view class="scroll-box" scroll-y="true" >
+			<titleStyle class="title-box">本次风险评定:{{ riskLevelData.level_name || '*' }}级</titleStyle>
+			<scroll-view class="scroll-box" scroll-y="true" v-if="riskLevelData.pdf_urlArr.length != 0">
 				<image class="image-item" :src="pdfUrlItem" v-for="(pdfUrlItem, index) in riskLevelData.pdf_urlArr" :key="pdfUrlItem" mode="widthFix" @click="previewImage(pdfUrlItem)"></image>
 			</scroll-view>
+			<nullDataState v-else></nullDataState>
 		</template>
 		<nullDataState v-else></nullDataState>
 		<kxjPreviewImage :saveBtn="false" ref="kxjPreviewImage" :imgs="[imageUrl]"></kxjPreviewImage>
@@ -37,7 +38,6 @@
 		},
 		async created() {
 			const riskLevelData = uni.getStorageSync('riskLevelData') || null;
-			console.log(riskLevelData, '***---***')
 			if (riskLevelData) {
 				lazyLoadCache(() => {
 					this.riskLevelData = riskLevelData
@@ -68,13 +68,6 @@
 								res.data.data['pdf_urlArr'] = []
 							}
 							this.riskLevelData = res.data.data
-							
-							// if (res.data.data.sign) {
-							// 	res.data.data['signArr'] = res.data.data.sign.split(',')
-							// } else {
-							// 	res.data.data['signArr'] = []
-							// }
-							// this.selfDirectedTrainingData = res.data.data
 							// this.selfDirectedTrainingData.signArr = ['https://cdn.pixabay.com/photo/2024/02/24/20/48/palais-royal-8594719_1280.jpg', 'https://cdn.pixabay.com/photo/2025/02/02/13/07/rope-9376701_1280.jpg']
 						}
 					},

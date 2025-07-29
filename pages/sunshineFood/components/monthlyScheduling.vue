@@ -1,6 +1,6 @@
 <template>
 	<view class="monthly-scheduling">
-		<template v-if="monthlySchedulingData">
+		<template v-if="monthlySchedulingData && monthlySchedulingData.pdf_urlArr.length != 0">
 			<scroll-view class="scroll-box" scroll-y="true" >
 				<image class="image-item" :src="pdfUrlItem" v-for="(pdfUrlItem, index) in monthlySchedulingData.pdf_urlArr" :key="pdfUrlItem" mode="widthFix" @click="previewImage(pdfUrlItem)"></image>
 			</scroll-view>

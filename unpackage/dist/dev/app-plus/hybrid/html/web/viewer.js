@@ -1350,6 +1350,7 @@ var PDFViewerApplication = {
                   scrollMode = _app_options.AppOptions.get("scrollModeOnLoad");
                   spreadMode = _app_options.AppOptions.get("spreadModeOnLoad");
 
+									stored.page = 0 // 初始化-->打开的时候永远都是第一页
                   if (stored.page && viewOnLoad !== ViewOnLoad.INITIAL) {
                     hash = "page=".concat(stored.page, "&zoom=").concat(zoom || stored.zoom, ",") + "".concat(stored.scrollLeft, ",").concat(stored.scrollTop);
                     rotation = parseInt(stored.rotation, 10);

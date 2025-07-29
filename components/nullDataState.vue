@@ -1,6 +1,7 @@
 <template>
 	<view class="null-data-state" :style="{ 'background-color': backgroundColor }">
-		<image class="icon-state" src="@/assets/imgs/null-data-icon.png" mode="widthFix"></image>
+		<!-- <image class="icon-state" src="@/assets/imgs/null-data-icon.png" mode="widthFix"></image> -->
+		<view class="icon-state"></view>
 		<view class="title">{{ title }}</view>
 	</view>
 </template>
@@ -41,8 +42,11 @@
 	position: relative;
 	.icon-state {
 		width: 50%;
+		padding-top: 56.25%;
 		display: block;
 		margin: 0 auto 2vw auto;
+		background-image: url('@/assets/imgs/null-data-icon.png');
+		background-size: 100% 100%;
 	}
 	.title {
 		font-size: 3.2vw;

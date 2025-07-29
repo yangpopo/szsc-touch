@@ -23,8 +23,18 @@ const store = new Vuex.Store({
 		'technicalSupport': uni.getStorageSync('technicalSupport') || '', // 技术支持
 		'serviceHotline': uni.getStorageSync('serviceHotline') || '', // 服务热线
 		'richTextData': null, // 富文本
+		'isShowNav': false, // 是否显示导航
+		'scanKeyData': '', // 扫描key数据
 	},
 	mutations: {
+		// 更新扫描key数据
+		updateScanKeyData(state, val) {
+			state.scanKeyData = val
+		},
+		// 更新显示导航状态
+		updateIsShowNav(state, val) {
+			state.isShowNav = val
+		},
 		// 更新技术支持
 		updateTechnicalSupport(state, val) {
 			state.technicalSupport = val

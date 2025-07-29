@@ -1,6 +1,6 @@
 <template>
 	<scroll-view :scroll-y="true" :show-scrollbar="false" class="subject-commitment">
-		<template v-if="supervisorData">
+		<template v-if="supervisorData && supervisorData.length != 0">
 			<view class="supervisor-list">
 				<view class="supervisor-item" v-for="(item,index) in supervisorData" :key="index">
 				  <image class="cover" :src="item.avatarArr[0]" mode="aspectFill"></image>

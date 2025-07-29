@@ -19,9 +19,19 @@
 		},
 		computed: {
 		},
+		watch: {
+			isShow(newVal) {
+				if (newVal) {
+					this.updateIsShowNav(false)
+				} else {
+					this.updateIsShowNav(true)
+				}
+			}
+		},
 		mounted() {
 		},
 		methods: {
+			...mapMutations(['updateIsShowNav']),
 		}
 	}
 </script>

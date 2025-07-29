@@ -9,10 +9,10 @@
 			</template>
 		</menuNavigation>
 		<view class="deadline-reminder">
-			<template v-if="deadlineReminderData != null">
+			<template v-if="deadlineReminderData && deadlineReminderData.data.length != 0">
 				<scroll-view class="scroll-box" :scroll-y="true" :show-scrollbar="false">
 					<view class="item" v-for="(item,index) in deadlineReminderData.data" :key="index">
-						<image class="cover" :src="item.cert_url[0]" @click="previewImage(item.cert_url[0])"></image>
+						<image class="cover" :src="item.cert_url[0] || defaultDocument" @click="previewImage(item.cert_url[0])" @error="errorImage($event, index)"></image>
 						<view class="info-box">
 							<view class="name">
 								商品名称:{{ item.goods_name }}
@@ -28,6 +28,7 @@
 							</view>
 						</view>
 					</view>
+					<view class="gap" style="width: 100%; height: 3vw;"></view>
 				</scroll-view>
 				<paginationCustomize :size="query.size" :current="query.page" :total="deadlineReminderData.total"
 					@change="queryChange"></paginationCustomize>
@@ -49,7 +50,7 @@
 	import nullDataState from '@/components/nullDataState'
 	import paginationCustomize from '@/components/paginationCustomize'
 	import kxjPreviewImage from '@/components/kxj-previewImage'
-
+	import defaultDocument from '@/assets/imgs/default-document.png'
 
 
 
@@ -73,7 +74,8 @@
 					pword: '',
 				},
 				deadlineReminderData: null,
-				imageUrl: ''
+				imageUrl: '',
+				defaultDocument,
 			}
 		},
 		computed: {
@@ -110,7 +112,6 @@
 					},
 					success: (res) => {
 						if (res.data.code == 200) {
-							// res.data.data.data[0].diff_num = 2
 							this.deadlineReminderData = res.data.data
 						}
 					},
@@ -129,9 +130,16 @@
 				if (!data) {
 					return
 				}
+				if (data == defaultDocument) {
+					return
+				}
 				this.imageUrl = data
 				this.$refs.kxjPreviewImage.show = true
-			}
+			},
+			// 图片加载错误
+			errorImage(err, index) {
+				this.deadlineReminderData.data[index].cert_url[0] = defaultDocument
+			},
 		}
 	}
 </script>
@@ -159,17 +167,21 @@
 			border-radius: 5rpx;
 		}
 	}
+	
+	.input-box {
+		width: 72.5vw;
+	}
 
 	.deadline-reminder {
 		width: 100vw;
-		height: calc(100% - 21vw);
+		height: calc(100% - 10vw);
 		position: relative;
 		background-color: #fff;
 		.scroll-box {
 			width: 100%;
-			height: calc(100%);
+			height: calc(100% - 12vw);
 			box-sizing: border-box;
-			padding: 2vw 0;
+			padding: 2vw 0 0 0;
 
 			.item {
 				width: calc(100% - 4vw);

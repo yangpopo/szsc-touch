@@ -1,5 +1,5 @@
 <template>
-	<view class="configuration">
+	<view class="system">
 		<uni-nav-bar shadow right-text="返回" :border="false" title="管理配置页" @clickRight="exitReturn"></uni-nav-bar>
 		<uni-list :border="true">
 			<uni-list-item :title="'屏保 -- ' + (openScreensaverState ? '开' : '关')" clickable>
@@ -35,7 +35,7 @@
 	import { mapState, mapMutations } from "vuex";
 
 	export default {
-		name: "configuration",
+		name: "system",
 		components: {},
 		data() {
 			return {
@@ -143,6 +143,7 @@
 			*/
 			logOut() {
 				uni.setStorageSync('token', ''); // 清除token
+				uni.removeStorageSync('isLogonAdministrators'); // 删除登录管理员状态
 				skipPage('login', this)
 			},
 			
@@ -158,7 +159,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.configuration {
+	.system {
 		width: 100vw;
 		height: 100vh;
 		.pop-up {

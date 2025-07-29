@@ -1,11 +1,9 @@
 <template>
 	<detailsPage>
 		<view class="company-introduction">
-			<template v-if="richTextDetails != 'richTextDetails'">
-				<switchTagMenu :menuData="menuData" @selectedMenu="selectedMenu" :defaultMenuValue="currentTabComponent"></switchTagMenu>
-				<component class="component-box" v-bind:is="currentTabComponent" @switchComponents.stop @selectedMenu="selectedMenu"></component>
-			</template>
-			<richTextDetails v-else ></richTextDetails>
+				<switchTagMenu v-show="richTextDetails != 'richTextDetails'" :menuData="menuData" @selectedMenu="selectedMenu" :defaultMenuValue="currentTabComponent"></switchTagMenu>
+				<component v-show="richTextDetails != 'richTextDetails'" class="component-box" v-bind:is="currentTabComponent" @switchComponents.stop @selectedMenu="selectedMenu"></component>
+			<richTextDetails v-show="richTextDetails == 'richTextDetails'" ></richTextDetails>
 		</view>
 	</detailsPage>
 </template>

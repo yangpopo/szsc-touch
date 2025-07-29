@@ -1,6 +1,6 @@
 <template>
 	<view class="supervision-and-inspection">
-		<template v-if="weeklyInvestigationData">
+		<template v-if="weeklyInvestigationData && weeklyInvestigationData.pdf_urlArr.length != 0">
 			<scroll-view class="scroll-box" scroll-y="true" >
 				<image class="image-item" :src="pdfUrlItem" v-for="(pdfUrlItem, index) in weeklyInvestigationData.pdf_urlArr" :key="pdfUrlItem" mode="widthFix" @click="previewImage(pdfUrlItem)"></image>
 			</scroll-view>

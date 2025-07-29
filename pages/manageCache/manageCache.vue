@@ -26,14 +26,8 @@
 </template>
 
 <script>
-	import {
-		formatDate,
-		skipPage
-	} from '@/tool/tool.js'
-	import {
-		mapState,
-		mapMutations
-	} from "vuex";
+	import { formatDate, skipPage } from '@/tool/tool.js'
+	import { mapState, mapMutations } from "vuex";
 
 	export default {
 		name: "manageCache",

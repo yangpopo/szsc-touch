@@ -140,6 +140,10 @@ export const routes = [
 		component: 'system', // 管理配置页
 	},
 	{
+		name: 'screensaver',
+		component: 'screensaver', // 屏保
+	},
+	{
 		name: 'complaintOpinion',
 		component: 'complaintOpinion', // 投诉管理
 	},
