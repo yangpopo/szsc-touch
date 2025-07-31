@@ -278,7 +278,7 @@ export const arrayImgStrChangeImgLabelStr = function(arrayImgStr) {
  * 页面初始化二级菜单
 */
 export const initPageRoute = ($this) => {
-	let routePath = store.state.routeInfo.options.routePath || ''
+	let routePath = uni.getLaunchOptionsSync().query.routePath || ''
 	let routePathArr = routePath.split('/')
 	if (routePathArr.length > 1) {
 		if (routePathArr[0] == $this.selfRootRoute) {

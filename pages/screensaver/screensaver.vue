@@ -5,7 +5,7 @@
 	    <view class="line1">重庆数字商超</view>
 	    <view class="line2">监管服务平台</view>
 	  </view>
-	  <image src="@/assets/imgs/xline2.png" mode="" class="xline"></image>
+	  <image src="../../assets/imgs/xline2.png" mode="" class="xline"></image>
 	  <view class="tip1">
 	    <view class="">食安重庆</view>
 	    <view class="">为您保驾护航</view>
@@ -14,7 +14,7 @@
 	    <view class="">投诉电话: </view>
 	    <view class="">12315</view>
 	  </view>
-	  <image src="@/assets/imgs/finger.png" mode="widthFix" class="imgs"></image>
+	  <image src="../../assets/imgs/finger.png" mode="widthFix" class="imgs"></image>
 	  <view class="bottom">
 	    <view class="bottomtitle">
 	      <view class="bottomtitle1">"食品安全</view>

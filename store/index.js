@@ -18,7 +18,7 @@ const store = new Vuex.Store({
 		'id': null, // id
 		'currentVersion': uni.getStorageSync('currentVersion') || '默认版本', // 当前版本
 		'openScreensaverState': uni.getStorageSync('openScreensaverState') === '' ? true : uni.getStorageSync('openScreensaverState'), // 打开屏保--初始化时候默认打开屏保
-		'navigationPageButCoordinateY': uni.getSystemInfoSync().screenHeight * 0.6, // 导航按钮坐标y 初始化高度
+		'navigationPageButCoordinateY': uni.getSystemInfoSync().screenHeight * 0.5, // 导航按钮坐标y 初始化高度
 		'popupQuantity': 0, // 弹窗数据
 		'technicalSupport': uni.getStorageSync('technicalSupport') || '', // 技术支持
 		'serviceHotline': uni.getStorageSync('serviceHotline') || '', // 服务热线

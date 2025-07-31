@@ -1,9 +1,9 @@
 {
-    "name" : "szscTouch",
+    "name" : "重庆数字商超监管服务平台",
     "appid" : "__UNI__08FEB1F",
     "description" : "",
-    "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionName" : "1.1.0",
+    "versionCode" : 110,
     "transformPx" : false,
     /* 5+App特有相关 */
     "app-plus" : {
@@ -55,10 +55,43 @@
                 "privacyDescription" : {
                     "NSPhotoLibraryUsageDescription" : "缓存图片视频加快打开速度",
                     "NSPhotoLibraryAddUsageDescription" : "缓存图片视频加快打开速度"
-                }
+                },
+                "dSYMs" : false
             },
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {},
+            "icons" : {
+                "android" : {
+                    "hdpi" : "static/72x72.png",
+                    "xhdpi" : "static/96x96.png",
+                    "xxhdpi" : "static/144x144.png",
+                    "xxxhdpi" : "static/192x192.png"
+                },
+                "ios" : {
+                    "appstore" : "static/1024x1024.png",
+                    "iphone" : {
+                        "app@2x" : "static/120x120.png",
+                        "app@3x" : "static/180x180.png",
+                        "spotlight@2x" : "static/80x80.png",
+                        "spotlight@3x" : "static/120x120.png",
+                        "settings@2x" : "static/58x58.png",
+                        "settings@3x" : "static/87x87.png",
+                        "notification@2x" : "static/40x40.png",
+                        "notification@3x" : "static/60x60.png"
+                    },
+                    "ipad" : {
+                        "app" : "static/76x76.png",
+                        "app@2x" : "static/152x152.png",
+                        "proapp@2x" : "static/167x167.png",
+                        "spotlight" : "static/40x40.png",
+                        "spotlight@2x" : "static/80x80.png",
+                        "settings" : "static/29x29.png",
+                        "settings@2x" : "static/58x58.png",
+                        "notification" : "static/20x20.png",
+                        "notification@2x" : "static/40x40.png"
+                    }
+                }
+            }
         }
     },
     /* 快应用特有相关 */

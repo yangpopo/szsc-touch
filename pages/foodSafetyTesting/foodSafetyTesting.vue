@@ -12,14 +12,49 @@
 					@confirm="confirm"></inputDateBox>
 			</template>
 		</menuNavigation>
-		<view class="food-safety-testing">
-			<tableCustomize :data="foodSafetyTestingData.data" :indexStarting="(query.page - 1) * query.size"
-				:height="tableHeight" :option="foodSafetyTestingOption"></tableCustomize>
-
-			<paginationCustomize :size="query.size" :current="query.page" :total="foodSafetyTestingData.total"
-				@change="queryChange"></paginationCustomize>
-
-		</view>
+		<scroll-view class="food-safety-testing" :scroll-y="true" :show-scrollbar="false" @scrolltolower="loadMore">
+			<view class="food-safety-testing-box" v-if="foodSafetyTestingData.length != 0">
+				<view class="item" v-for="(foodSafetyTestingItem, index) in foodSafetyTestingData" :key="foodSafetyTestingItem.samp_no">
+					<view class="head">
+						<view class="before">
+							<view class="name">{{ foodSafetyTestingItem.goods_name || '-' }}</view>
+							<view class="samp-no">{{ foodSafetyTestingItem.samp_no || '-' }}</view>
+						</view>
+						<view class="after">{{ foodSafetyTestingItem.outcome == 0 ? '阴性' : '阳性' }}</view>
+					</view>
+					<view class="main">
+						<view class="main-item">
+							<text class="title">检测日期</text>
+							<view class="content">{{ foodSafetyTestingItem.date || '-' }}</view>
+						</view>
+						<view class="main-item">
+							<text class="title">检测项目</text>
+							<view class="content">{{ foodSafetyTestingItem.check_item || '-' }}</view>
+						</view>
+						<template v-if="foodSafetyTestingItem.isOpen">
+							<view class="main-item">
+								<text class="title">判断标准</text>
+								<view class="content">{{ foodSafetyTestingItem.criteria || '-' }}</view>
+							</view>
+							<view class="main-item">
+								<text class="title">检测依据</text>
+								<view class="content">{{ foodSafetyTestingItem.basis || '-' }}</view>
+							</view>
+						</template>
+						<view class="switch-but" @click="switchOpen(index)">
+							<template v-if="foodSafetyTestingItem.isOpen">
+								收起<image class="icon" src="../../assets/imgs/upward-icon.png" mode="aspectFit"></image>
+							</template>
+							<template v-else>
+								详情<image class="icon" src="../../assets/imgs/downward-icon.png" mode="aspectFit"></image>
+							</template>
+						</view>
+					</view>
+				</view>
+				<view class="gap" style="width: 100%; height: 2vw;"></view>
+			</view>
+			<nullDataState v-else></nullDataState>
+		</scroll-view>
 	</detailsPage>
 </template>
 
@@ -32,7 +67,6 @@
 	import inputBox from '@/components/inputBox.vue'
 	import inputDateBox from '@/components/inputDateBox.vue'
 	import nullDataState from '@/components/nullDataState'
-	import tableCustomize from '@/components/tableCustomize'
 	import paginationCustomize from '@/components/paginationCustomize'
 
 
@@ -46,7 +80,6 @@
 			inputDateBox,
 			menuNavigation,
 			nullDataState,
-			tableCustomize,
 			paginationCustomize
 		},
 		data() {
@@ -65,68 +98,24 @@
 					pword: '',
 					src_date: ''
 				},
-				foodSafetyTestingData: {},
-				foodSafetyTestingOption: [{
-					prop: 'index',
-					label: '序号',
-					maxWidth: 5,
-					maxCharacter: 3,
-				}, {
-					prop: 'date',
-					label: '检测日期',
-					maxWidth: 30,
-					maxCharacter: 10,
-				}, {
-					prop: 'goods_name',
-					label: '商品名称',
-					maxWidth: 32,
-					maxCharacter: 10,
-				}, {
-					prop: 'samp_no',
-					label: '样品编号',
-					maxWidth: 53,
-					maxCharacter: 30,
-				}, {
-					prop: 'check_item',
-					label: '检测项目',
-					maxWidth: 55,
-					maxCharacter: 15,
-				}, {
-					prop: 'customize',
-					label: '检测结果',
-					maxWidth: 25,
-					maxCharacter: 5,
-					renderFun(data) {
-						return data.outcome == 0 ? '合格' : '不合格'
-					}
-				}, {
-					prop: 'criteria',
-					label: '判断标准',
-					maxWidth: 45,
-					maxCharacter: 18,
-					butText: '查询',
-				}, {
-					prop: 'basis',
-					label: '检测依据',
-					maxWidth: 50,
-					maxCharacter: 20,
-				}],
-				tableHeight: '0vw',
+				foodSafetyTestingData: [],
 				selfRootRoute: 'foodSafetyTesting',
 				currentComponent: null,
 				goodsId: null,
-
+				isComplete: false,
 			}
 		},
 		computed: {
 			...mapState(['routeInfo'])
 		},
 		async created() {
-			this.tableHeight = `calc(100vh - 41vw - 20vw - 23vw)`
 			const foodSafetyTestingData = uni.getStorageSync('foodSafetyTestingData') || null;
 			if (foodSafetyTestingData) {
 				lazyLoadCache(() => {
-					this.foodSafetyTestingData = foodSafetyTestingData
+					foodSafetyTestingData.data.forEach(item => {
+						item['isOpen'] = false
+					})
+					this.foodSafetyTestingData = foodSafetyTestingData.data
 				})
 			} else {
 				await this.getData()
@@ -161,13 +150,21 @@
 					},
 					success: (res) => {
 						if (res.data.code == 200) {
-							this.foodSafetyTestingData = res.data.data
+							if (res.data.data.data.length == 0) {
+								this.isComplete = true
+							}
+							res.data.data.data.forEach(item => {
+								item['isOpen'] = false
+								this.foodSafetyTestingData.push(item)
+							})
 						}
 					},
 				});
 			},
 			confirm() {
 				this.query.page = 1
+				this.isComplete = false
+				this.foodSafetyTestingData = []
 				this.getData()
 			},
 
@@ -175,6 +172,16 @@
 				this.query.page = data.current
 				this.getData()
 			},
+			loadMore(e) {
+				if (this.isComplete) {
+					return
+				}
+				this.query.page++
+				this.getData()
+			},
+			switchOpen(index) {
+				this.foodSafetyTestingData[index].isOpen = !this.foodSafetyTestingData[index].isOpen
+			}
 		}
 	}
 </script>
@@ -185,7 +192,7 @@
 	}
 
 	.input-box {
-		width: 67vw;
+		width: 66.5vw;
 	}
 
 	.food-safety-testing {
@@ -194,89 +201,102 @@
 		position: relative;
 		background-color: #fff;
 
-		.scroll-box {
+		.food-safety-testing-box {
 			width: 100%;
 			height: calc(100%);
-			background-color: #fff;
 			box-sizing: border-box;
 			padding: 2vw 0;
-
-			.item {
+			> .item {
 				width: calc(100% - 4vw);
-				display: flex;
-				padding: 15rpx;
-				box-shadow: 0 0 1vw rgba(4, 100, 202, 0.5);
-				margin: 3vw auto 3vw auto;
-
-				.profile-picture {
-					width: 21vw;
-					height: 28vw;
-					margin-right: 2vw;
-					border-radius: 1vw;
-					flex-shrink: 0;
-				}
-
-				.info-box {
-					width: calc(100% - 21vw - 2vw);
-
-					.name-box {
-						display: flex;
-						height: 8vw;
-
+				padding: 2vw 3vw 0 3vw;
+				border: 1px solid rgba(221, 221, 221, 1);
+				background-image: linear-gradient(180deg, rgba(147, 188, 230, 0.5) 0%, rgba(147, 188, 230, 0) 100%);
+				background-size: 100% 15vw;
+				background-repeat: repeat-x;
+				margin: 0 auto 3vw auto;
+				border-radius: 1.5vw;
+				.head {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					box-sizing: border-box;
+					padding-bottom: 1vw;
+					border-bottom: 1px solid rgba(147, 188, 230, 0.2);
+					margin-bottom: 1vw;
+					.before {
+						width: calc(100% - 20vw);
 						.name {
-							// letter-spacing: 10rpx;
-							height: 100%;
-							min-width: 14vw;
-							display: flex;
-							align-items: center;
-							position: relative;
-							margin-right: 2vw;
-							color: #0464CA;
-							font-family: 'PingFangH';
-							font-size: 4vw;
-							box-sizing: border-box;
-							padding-right: 2vw;
-
-							&::after {
-								content: "";
-								width: 100%;
-								height: 2px;
-								background: linear-gradient(to right, #0464CA, #53A4FD);
-								position: absolute;
-								bottom: 0;
-							}
+							font-size: 3.8vw;
+							color: rgba(4, 100, 202, 1);
+							font-family: "PingFangH";
+							overflow:hidden;/*内容超出后隐藏*/
+							text-overflow:ellipsis;/*超出内容显示为省略号*/
+							white-space:nowrap;/*文本不进行换行*/
+							width: calc(100%);
 						}
-
-						.position {
-							padding: 0 2vw;
-							height: 90%;
-							background: linear-gradient(to right, #0464CA, #3181D5);
-							color: #fff;
-							font-family: 'PingFangM';
-							font-size: 22rpx;
-							display: flex;
-							align-items: center;
-							justify-content: center;
-							border-radius: 4rpx;
+						.samp-no {
+							color: rgba(133, 151, 171, 1);
+							font-size: 3.2vw;
 						}
 					}
-
-					.info-item {
-						width: 100%;
+					
+					.after {
+						font-size: 3.2vw;
+						color: rgba(4, 100, 202, 1);
+						box-sizing: border-box;
+						padding: 0.5vw 2vw;
+						border: 1px solid rgba(4, 100, 202, 1);
+						border-radius: 1vw;
+						background-color: #fff;
+						flex-shrink: 0;
+						margin-left: 2vw;
+					}
+				}
+				.main {
+					width: 100%;
+					background-image: url('@/assets/imgs/foodSafetyTesting-icon.png');
+					background-size: 10vw 10vw;
+					background-repeat: no-repeat;
+					background-position: right calc(100% - 1vw);
+					.main-item {
 						display: flex;
-						align-items: center;
-						font-size: 3.5vw;
-						margin: 1vw 0;
+						align-items: baseline;
+						color: rgba(119, 119, 119, 1);
+						font-size: 3.6vw;
+						width: 100%;
+						box-sizing: border-box;
+						padding: 0.5vw 0;
+						
+			
+						.title {
+							color: rgba(56, 56, 56, 1);
+							font-family: "PingFangH";
+							margin-right: 1.5vw;
+							width: 14.5vw;
+							text-align: justify;
+							text-justify: inter-character;
+							text-align-last: justify;
+						}
+						.content {
+							width: calc(100% - 20vw);
+							// overflow:hidden;/*内容超出后隐藏*/
+							// text-overflow:ellipsis;/*超出内容显示为省略号*/
+							// white-space:nowrap;/*文本不进行换行*/
+						}
 					}
-
-					.danger {
-						color: #F24822;
-						font-family: 'PingFangH';
-					}
-
-					.primary {
-						color: #0464CA;
-						font-family: 'PingFangH';
+				}
+				.switch-but {
+					width: 100%;
+					font-size: 3.5vw;
+					display: flex;
+					justify-content: center;
+					align-items: center;
+					box-sizing: border-box;
+					padding: 1vw 1vw 1.5vw 1vw;
+					color: rgba(153, 153, 153, 1);
+					.icon {
+						width: 4vw;
+						height: 4vw;
 					}
 				}
 			}

@@ -13,8 +13,9 @@
 		      <view class="qrcode">
 		        <view class="codebg">
 		          <!-- <image :src="QrCodeUrl" mode="aspectFit"></image> -->
-		   
-							<yz-qr class="qr-code" v-if="shopId" :text="`http://szsc.zhnyst.com/app/advice/index.html?id=${shopId}#/`" :size="50 * viewportWidth / 100" @update:qrStart="qrStart" @update:qrPath="sdfsad"></yz-qr>
+							<view class="qr-code-box" v-if="shopId">
+								<yz-qr class="qr-code" :text="`http://szsc.zhnyst.com/app/advice/index.html?id=${shopId}#/`" :size="50 * viewportWidth / 100" colorDark="rgba(4, 100, 202, 0.8)" @update:qrStart="qrStart" @update:qrPath="sdfsad"></yz-qr>
+							</view>
 							<view class="none-data" v-else>shopId为空</view>
 		        </view>
 		      </view>
@@ -143,12 +144,18 @@ input::placeholder {
             align-items: center;
             background-color: #FFF;
             border-radius: 25rpx;
+						.qr-code-box {
+							box-sizing: border-box;
+							background-color: #fff;
+							padding: 2vw;
+							border-radius: 20rpx;
+						}
           }
-          image, canvas {
-            // width: 450rpx;
-            // height: 450rpx;
-            border-radius: 20rpx;
-          }
+          // image, canvas {
+          //   // width: 450rpx;
+          //   // height: 450rpx;
+          //   border-radius: 20rpx;
+          // }
         }
 
         .botBox {

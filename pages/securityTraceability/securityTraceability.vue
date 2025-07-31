@@ -10,7 +10,7 @@
 				</template>
 				
 				<template v-else-if="queryType == '扫码查询'">
-					<inputBox class="input-box" :disabled="true" v-model="query.pword" placeholder="商品条码搜索" @confirm="keywordQuery"></inputBox>
+					<inputBox class="input-box" :disabled="true" v-model="query.pword" placeholder="商品条码搜索" @confirm="keywordQuery" @clean="cleanScanKeyData"></inputBox>
 				</template>
 				
 				<template v-else-if="queryType == '时间筛选'">
@@ -19,12 +19,39 @@
 				
 			</template>
 		</menuNavigation>
-		<view class="security-traceability" v-show="currentComponent == null">
-			<tableCustomize :data="securityTraceabilityData.data" :indexStarting="(query.page - 1) * query.size" :height="tableHeight" :option="securityTraceabilityOption" @queryClick="tableQueryDetails"></tableCustomize>
-			
-			<paginationCustomize :size="query.size" :current="query.page" :total="securityTraceabilityData.total" @change="queryChange" ></paginationCustomize>
-			
-		</view>
+		<scroll-view class="security-traceability" v-show="currentComponent == null" :scroll-y="true" :show-scrollbar="false" @scrolltolower="loadMore">
+			<view class="security-traceability-box" v-if="securityTraceabilityData.length != 0">
+				<view class="gap" style="width: 100%; height: 2vw;"></view>
+				<view class="item" v-for="securityTraceabilityItem in securityTraceabilityData" :key="securityTraceabilityItem.goods_id">
+					<view class="head">
+						<view class="name">{{ securityTraceabilityItem.goods_name || '-' }}</view>
+						<view class="query-but" @click="tableQueryDetails(securityTraceabilityItem)">查询</view>
+					</view>
+					<view class="main">
+						<view class="title-item">
+							<view class="item" style="width: 180%">
+								<text class="title">商品分类</text>
+								<view class="content" style="width: 40vw;">{{ securityTraceabilityItem.goods_category || '-' }}</view>
+							</view>
+							<view class="item">
+								<text class="title">入库数量</text>
+								<view class="content">{{ securityTraceabilityItem.in_num || '0' }}{{ securityTraceabilityItem.goods_unit || '' }}</view>
+							</view>
+						</view>
+						<view class="item" style="width: 80%">
+							<text class="title">入库时间</text>
+							<view class="content">{{ securityTraceabilityItem.in_date || '-' }}</view>
+						</view>
+						<view class="item" style="width: 80%">
+							<text class="title">供货商</text>
+							<view class="content">{{ securityTraceabilityItem.vendor || '-' }}</view>
+						</view>
+					</view>
+				</view>
+				<view class="gap" style="width: 100%; height: 2vw;"></view>
+			</view>
+			<nullDataState v-else></nullDataState>
+		</scroll-view>
 		<secureDetail :goodsId="goodsId" v-show="currentComponent != null"></secureDetail>
 	</detailsPage>
 </template>
@@ -39,7 +66,7 @@
 	import inputDateBox from '@/components/inputDateBox.vue'
 	import nullDataState from '@/components/nullDataState'
 	import tableCustomize from '@/components/tableCustomize'
-	import paginationCustomize from '@/components/paginationCustomize'
+	
 	
 	import secureDetail from './components/secureDetail.vue' // 食安详情
 	
@@ -55,7 +82,6 @@
 			nullDataState,
 			tableCustomize,
 			secureDetail,
-			paginationCustomize
 		},
 		data() {
 			return {
@@ -76,50 +102,12 @@
 					pword: '',
 					src_date: ''
 				},
-				securityTraceabilityData: {},
-				securityTraceabilityOption: [{
-					prop: 'index',
-					label: '序号',
-					maxWidth: 5,
-					maxCharacter: 3,
-				}, {
-					prop: 'goods_name',
-					label: '商品名称',
-					maxWidth: 68,
-					maxCharacter: 20,
-				}, {
-					prop: 'goods_category',
-					label: '分类',
-					maxWidth: 45,
-					maxCharacter: 12,
-				}, {
-					prop: 'in_date',
-					label: '入库时间',
-					maxWidth: 30,
-					maxCharacter: 10,
-				}, {
-					prop: 'in_num',
-					label: '入库数量',
-					maxWidth: 25,
-					maxCharacter: 6,
-				}, {
-					prop: 'vendor',
-					label: '供应商',
-					maxWidth: 45,
-					maxCharacter: 12,
-				}, {
-					prop: 'configure',
-					float: true,
-					label: '操作',
-					maxCharacter: 5,
-					butText:'查询',
-					triggerEvent: 'queryClick'
-				}],
-				tableHeight: '0vw',
+				securityTraceabilityData: [],
 				selfRootRoute: 'securityTraceability',
 				currentComponent: null,
 				goodsId: null,
 				endDate: '', // 结束日期
+				isComplete: false, // 是否完成
 			}
 		},
 		computed: {
@@ -133,11 +121,10 @@
 				this.updateScanKeyData('')
 			}
 			this.endDate = formatDate(new Date())
-			this.tableHeight = `calc(100vh - 41vw - 20vw - 20vw)`
 			const securityTraceabilityData = uni.getStorageSync('securityTraceabilityData') || null;
 			if (securityTraceabilityData) {
 				lazyLoadCache(() => {
-					this.securityTraceabilityData = securityTraceabilityData
+					this.securityTraceabilityData = securityTraceabilityData.data
 				})
 			} else {
 				await this.getData()
@@ -156,10 +143,18 @@
 					this.query.pword = newVal
 					this.updateScanKeyData('')
 				}
-			}
+				this.$nextTick(() => {
+					this.keywordQuery()
+				})
+			},
 		},
 		methods: {
 			...mapMutations(['updataRouteInfo', 'updataRichTextData', 'updateScanKeyData']),
+			// 清除ScanKeyData
+			cleanScanKeyData() {
+				this.updateScanKeyData('')
+				console.log('我清除了')
+			},
 			// 查询类型发生变化
 			queryTypeChange(data) {
 				this.query = {
@@ -179,7 +174,12 @@
 					},
 					success: (res) => {
 						if (res.data.code == 200) {
-							this.securityTraceabilityData = res.data.data
+							if (res.data.data.data.length == 0) {
+								this.isComplete = true
+							}
+							res.data.data.data.forEach(item => {
+								this.securityTraceabilityData.push(item)
+							})
 						}
 					},
 				});
@@ -190,13 +190,17 @@
 				pageSelectedMenu('secureDetail', this, 'secureDetail')
 			},
 			
-			queryChange(data) {
-				this.query.page = data.current
-				this.getData()
-			},
-			
 			keywordQuery() {
 				this.query.page = 1
+				this.isComplete = false
+				this.securityTraceabilityData = []
+				this.getData()
+			},
+			loadMore(e) {
+				if (this.isComplete) {
+					return
+				}
+				this.query.page++
 				this.getData()
 			}
 		}
@@ -208,7 +212,7 @@
 	// padding: 3vw 0 0 0;
 }
 .input-box {
-	width: 67vw;
+	width: 66.5vw;
 }
 .security-traceability {
 	width: 100vw;
@@ -216,83 +220,90 @@
 	position: relative;
 	background-color: #fff;
 	
-	.scroll-box {
+	.security-traceability-box {
 		width: 100%;
 		height: calc(100%);
 		box-sizing: border-box;
 		padding: 2vw 0;
-		.item {
+		> .item {
 			width: calc(100% - 4vw);
-			display: flex;
-			padding: 15rpx;
-			box-shadow: 0 0 1vw rgba(4, 100, 202, 0.5);
-		  margin: 3vw auto 3vw auto;
-		
-			.profile-picture {
-				width: 21vw;
-				height: 28vw;
-				margin-right: 2vw;
-				border-radius: 1vw;
-				flex-shrink: 0;
-			}
-		
-			.info-box {
-				width: calc(100% - 21vw - 2vw);
-				.name-box {
-					display: flex;
-					height: 8vw;
-					.name {
-						// letter-spacing: 10rpx;
-						height: 100%;
-		        min-width: 14vw;
-						display: flex;
-						align-items: center;
-						position: relative;
-						margin-right: 2vw;
-						color: #0464CA;
-						font-family: 'PingFangH';
-						font-size: 4vw;
-						box-sizing: border-box;
-						padding-right: 2vw;
-						&::after {
-							content: "";
-							width: 100%;
-							height: 2px;
-							background: linear-gradient(to right, #0464CA, #53A4FD);
-							position: absolute;
-							bottom: 0;
-						}
-					}
-					.position {
-						padding: 0 2vw;
-						height: 90%;
-						background: linear-gradient(to right,#0464CA, #3181D5);
-						color: #fff;
-						font-family: 'PingFangM';
-						font-size: 22rpx;
-						display: flex;
-						align-items: center;
-						justify-content: center;
-						border-radius: 4rpx;
-					}
+			padding: 2vw 3vw;
+			border: 1px solid rgba(221, 221, 221, 1);
+			background-image: linear-gradient(180deg, rgba(147, 188, 230, 0.5) 0%, rgba(147, 188, 230, 0) 100%);
+			background-size: 100% 20vw;
+			background-repeat: repeat-x;
+			margin: 0 auto 3vw auto;
+			border-radius: 1.5vw;
+			.head {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				box-sizing: border-box;
+				padding-bottom: 2vw;
+				border-bottom: 1px solid rgba(147, 188, 230, 0.2);
+				margin-bottom: 1vw;
+				.name {
+					font-size: 3.8vw;
+					color: rgba(4, 100, 202, 1);
+					font-family: "PingFangH";
+					overflow:hidden;/*内容超出后隐藏*/
+					text-overflow:ellipsis;/*超出内容显示为省略号*/
+					white-space:nowrap;/*文本不进行换行*/
+					width: calc(100% - 20vw);
 				}
-				.info-item {
+				.query-but {
+					font-size: 3.2vw;
+					color: rgba(4, 100, 202, 1);
+					box-sizing: border-box;
+					padding: 1vw 2.5vw;
+					border: 1px solid rgba(4, 100, 202, 1);
+					border-radius: 1vw;
+					background-color: #fff;
+					flex-shrink: 0;
+					margin-left: 2vw;
+				}
+			}
+			.main {
+				width: 100%;
+				background-image: url('@/assets/imgs/securityTraceability-icon.png');
+				background-size: 10vw 10vw;
+				background-repeat: no-repeat;
+				background-position: right bottom;
+				.title-item {
 					width: 100%;
 					display: flex;
 					align-items: center;
-					font-size: 3.5vw;
-					margin: 1vw 0;
 				}
-				.danger {
-					color: #F24822;
-					font-family: 'PingFangH';
+				.item {
+					display: flex;
+					align-items: baseline;
+					color: rgba(119, 119, 119, 1);
+					font-size: 3.6vw;
+					width: 100%;
+					box-sizing: border-box;
+					padding: 0.5vw 0;
+					
+
+					.title {
+						color: rgba(56, 56, 56, 1);
+						font-family: "PingFangH";
+						margin-right: 1.5vw;
+						width: 14.5vw;
+						text-align: justify;
+						text-justify: inter-character;
+						text-align-last: justify;
+					}
+					.content {
+						width: calc(100% - 18vw);
+						overflow:hidden;/*内容超出后隐藏*/
+						text-overflow:ellipsis;/*超出内容显示为省略号*/
+						white-space:nowrap;/*文本不进行换行*/
+					}
 				}
-		    .primary {
-		      color: #0464CA;
-		      font-family: 'PingFangH';
-		    }
 			}
 		}
 	}
 }
 </style>
+
+	

@@ -2,7 +2,7 @@
 	<view class="rich-text-details">
 		<template v-if="richTextData">
 			<titleStyle id="titleStyle" class="title" :fontSize="3.5" fontColor="#fff" mode="bright">{{ richTextData.title }}</titleStyle>
-			<scroll-view class="scroll-rich" :style="{'height': `calc(100% - ${titleStyleHeight}px - 1vw)`}" scroll-y="true" v-if="richTextData.content">
+			<scroll-view class="scroll-rich" :style="{'height': `calc(100% - ${titleStyleHeight}px)`}" scroll-y="true" v-if="richTextData.content">
 				<rich-text class="rich-text-box" :nodes="contentData" space="nbsp"></rich-text>
 			</scroll-view>
 			<nullDataState v-else></nullDataState>
@@ -72,7 +72,7 @@
 	.title {
 		box-sizing: border-box;
 		padding: 2.5vw 0;
-		margin-bottom: 1vw;
+		// margin-bottom: 1vw;
 	}
 	.scroll-rich {
 		width: 100%;

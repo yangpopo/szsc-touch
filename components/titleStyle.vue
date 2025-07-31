@@ -73,7 +73,7 @@
 		overflow-wrap: break-word; /* 标准 */
 		font-family: "PingFangH";
 		// font-size: 5.2vw;
-		margin: 0 2vw;
+		margin: 0 1vw;
 		max-width: 80%;
 		flex-shrink: 0;
 	}

@@ -4,7 +4,6 @@
 			<view class="state-box">
 				<view class="before">
 					<view class="national-emblem" @touchstart="handleTouchStart" @touchend="handleTouchEnd"></view>
-					<!-- <image class="gh" src="@/assets/imgs/gh.png" mode="widthFix" ></image> -->
 					<view class="info">
 						<view class="title">市场监督管理局</view>
 						<view class="subtitle">MARKET REGULATION</view>
@@ -143,9 +142,9 @@
 					display: flex;
 					align-items: center;
 					.national-emblem {
-						width: 10vw;
-						height: 10vw;
-						margin-right: 2vw;
+						width: 9.5vw;
+						height: 9.5vw;
+						margin-right: 1vw;
 						background-image: url('@/assets/imgs/gh.png');
 						background-size: 100% 100%;
 						// background-color: #0052A9;
@@ -154,10 +153,10 @@
 						color: #0052A9;
 						font-family: "PingFangH";
 						.title {
-							font-size: 3.8vw;
+							font-size: 4vw;
 						}
 						.subtitle {
-							font-size: 2.6vw;
+							font-size: 2.8vw;
 						}
 					}
 				}

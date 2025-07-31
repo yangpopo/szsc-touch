@@ -4,10 +4,6 @@ import { skipPage } from '../tool/tool.js'
 const requestHeader = 'http://192.168.0.122:8093/'; // 本地地址
 // const requestHeader = 'http://tt.zhnyst.com/'; // 线上测试地址
 
-let header = {
-	'Content-Type': 'application/json',
-}
-
 
 // 拦截器
 uni.addInterceptor('request', {

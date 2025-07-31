@@ -84,14 +84,14 @@
 			display: block;
 			color: #0464CA;
 			font-family: "PingFangH";
-			font-size: 3.4vw;
+			font-size: 3.8vw;
 			white-space: nowrap; /* 禁止文本换行 */
 			overflow: hidden; /* 隐藏溢出内容 */
 			text-overflow: ellipsis; /* 使用省略号表示被截断的内容 */
 		}
 		.downward-icon {
-			width: 4vw;
-			height: 3vw;
+			width: 3vw;
+			height: 2vw;
 			margin-left: 1vw;
 			background-image: url('@/assets/imgs/dropdown.png');
 			background-size: 100% 100%;
@@ -117,7 +117,7 @@
 		}
 		
 		.option-item {
-			font-size: 3vw;
+			font-size: 3.4vw;
 			width: 100%;
 			box-sizing: border-box;
 			text-align: center;

@@ -107,7 +107,7 @@
 		},
 		watch:{
 			pageName(newVal) {
-				if (newVal == 'login' || newVal == 'configuration' || newVal == 'system' || newVal == 'manageCache' || newVal == 'home') {
+				if (newVal == 'login' || newVal == 'system' || newVal == 'manageCache' || newVal == 'home' || newVal == 'screensaver') {
 					this.updateIsShowNav(false)
 				} else {
 					this.updateIsShowNav(true)
@@ -204,7 +204,7 @@
 						if (res.data.code == 200) {
 							uni.setStorageSync('technicalSupport', res.data.data.name)
 							this.updateTechnicalSupport(res.data.data.name)
-							uni.setStorageSync('serviceHotline', res.data.data.name)
+							uni.setStorageSync('serviceHotline', res.data.data.tel)
 							this.updateServiceHotline(res.data.data.tel)
 						}
 					}
@@ -221,6 +221,7 @@
 					url: 'touch/shop/upOnline',
 					method: 'post',
 					sslVerify: false,
+					isShowLoading: false,
 					data: {
 						version,
 						uuid
@@ -239,14 +240,13 @@
 			
 			// 获取服务器app信息
 			inspectAppUpdate() {
-				let $this = this
 				plus.runtime.getProperty(plus.runtime.appid, (widgetInfo) => {
 					// 获取uuid
 					plus.device.getInfo({
-						success:function(e){
-							$this.upOnline(widgetInfo.version, e.uuid) // 初始化第一次
+						success:(e) => {
+							this.upOnline(widgetInfo.version, e.uuid) // 初始化第一次
 							setInterval(() => {
-								$this.upOnline(widgetInfo.version, e.uuid)
+								this.upOnline(widgetInfo.version, e.uuid)
 							}, 30 * 60 * 1000)
 							// 30 * 60 * 1000
 						},

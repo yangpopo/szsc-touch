@@ -127,8 +127,8 @@
 		border-radius: 0 0.8vw 0.8vw 0;
 		flex-shrink: 0;
 		.icon {
-			width: 3.8vw;
-			height: 3.8vw;
+			width: 3.5vw;
+			height: 3.5vw;
 			background-image: url('@/assets/imgs/search.png');
 			background-size: 100% 100%;
 		}
@@ -136,7 +136,7 @@
 			white-space: nowrap;
 			color: #fff;
 			margin-left: 1vw;
-			font-size: 4vw;
+			font-size: 3.5vw;
 		}
 	}
 }

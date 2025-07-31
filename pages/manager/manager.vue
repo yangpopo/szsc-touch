@@ -1,12 +1,9 @@
 <template>
 	<detailsPage>
-		<menuNavigation>
-			<template #head>
-				企业主要负责人
-			</template>
-		</menuNavigation>
+		<switchTagMenu :menuData="managerMenuData" @selectedMenu="selectedMenu"></switchTagMenu>
 		<view class="manager">
 			<scroll-view class="scroll-box" :scroll-y="true" :show-scrollbar="false" v-if="managerData && managerData.length">
+				<view class="gap" style="width: 100%; height: 2vw;"></view>
 				<view class="item" v-for="(managerItem,index) in managerData" :key="managerItem.job_id">
 					<image class="profile-picture" :src="managerItem.avatarArr[0] || defaultAvatar" mode="aspectFill"></image>
 					<view class="info-box">
@@ -19,7 +16,7 @@
 						<view class="info-item">健康证: <text class="primary" v-if="managerItem.health_url" @click="previewImage(managerItem.health_url)">查看</text> <text class="danger" v-if="!managerItem.health_url">暂无</text></view>
 					</view>
 				</view>
-				<view class="gap" style="width: 100%; height: 3vw;"></view>
+				<view class="gap" style="width: 100%; height: 2vw;"></view>
 			</scroll-view>
 			<nullDataState v-else></nullDataState>
 		</view>
@@ -31,7 +28,7 @@
 	import { formatDate, lazyLoadCache } from '@/tool/tool.js'
 	import { mapState, mapMutations } from 'vuex'
 	import detailsPage from '@/components/detailsPage.vue' // 默认页面
-	import menuNavigation from '@/components/menuNavigation.vue' // 选择标签菜单
+	import switchTagMenu from '@/components/switchTagMenu.vue' // 选择标签菜单
 	import kxjPreviewImage from '@/components/kxj-previewImage'
 	import nullDataState from '@/components/nullDataState'
 	import defaultAvatar from '@/assets/imgs/default-avatar.png'; 
@@ -41,13 +38,18 @@
 		name: "manager",
 		components:{
 			detailsPage,
-			menuNavigation,
+			switchTagMenu,
 			kxjPreviewImage,
 			nullDataState,
 		},
 		data() {
 			return {
+				managerMenuData: [{
+					title: '全部',
+					value: ''
+				}],
 				managerData: [],
+				srcJobId: '',
 				defaultAvatar,
 				imageUrl: ''
 			}
@@ -55,23 +57,50 @@
 		computed: {
 		},
 		async created() {
+			const managerMenuData = uni.getStorageSync('managerMenuData') || null;
 			const managerData = uni.getStorageSync('managerData') || null;
-			console.log(managerData)
-			if (managerData) {
+			if (managerData && managerMenuData) {
 				lazyLoadCache(() => {
+					managerMenuData.forEach(item => {
+						this.managerMenuData.push({
+							title: item.text,
+							value: item.id
+						})
+					})
 					this.managerData = managerData
 				})
 			} else {
+				await this.getOrganizationalStructure()
 				await this.getData()
 			}
 		},
 		methods: {
+			// 获取组织价格
+			async getOrganizationalStructure() {
+				await uni.request({
+					url: 'touch/shop/getShopJob',
+					method: 'post',
+					data: {
+					},
+					success: (res) => {
+						if (res.data.code == 200) {
+							res.data.data.forEach(item => {
+								this.managerMenuData.push({
+									title: item.text,
+									value: item.id
+								})
+							})
+						}
+					},
+				});
+			},
 			// 获取数据
 			async getData() {
 				await uni.request({
 					url: 'touch/shop/getShopPerson',
 					method: 'post',
 					data: {
+						src_job_id: this.srcJobId
 					},
 					success: (res) => {
 						if (res.data.code == 200) {
@@ -86,6 +115,11 @@
 						}
 					},
 				});
+			},
+			// 切换菜单
+			selectedMenu(data) {
+				this.srcJobId = data
+				this.getData()
 			},
 			// 预览图片
 			previewImage(data) {
@@ -104,6 +138,7 @@
 	width: 100vw;
 	height: calc(100% - 10vw);
 	position: relative;
+	box-sizing: border-box;
 	background-color: #fff;
 	.scroll-box {
 		width: 100%;
@@ -115,11 +150,12 @@
 			display: flex;
 			padding: 15rpx;
 			box-shadow: 0 0 1vw rgba(4, 100, 202, 0.5);
-		  margin: 3vw auto 3vw auto;
+		  margin: 0 auto 3vw auto;
+			border-radius: 1.5vw;
 		
 			.profile-picture {
 				width: 21vw;
-				height: 28vw;
+				height: 26vw;
 				margin-right: 2vw;
 				border-radius: 1vw;
 				flex-shrink: 0;
@@ -129,7 +165,9 @@
 				width: calc(100% - 21vw - 2vw);
 				.name-box {
 					display: flex;
-					height: 8vw;
+					align-items: flex-end;
+					margin-bottom: 3vw;
+					// height: 8vw;
 					.name {
 						// letter-spacing: 10rpx;
 						height: 100%;
@@ -153,8 +191,8 @@
 						}
 					}
 					.position {
-						padding: 0 2vw;
-						height: 90%;
+						padding: 0.6vw 2vw;
+						// height: 75%;
 						background: linear-gradient(to right,#0464CA, #3181D5);
 						color: #fff;
 						font-family: 'PingFangM';

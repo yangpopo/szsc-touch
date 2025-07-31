@@ -96,7 +96,7 @@
 			// 查询类型发生变化
 			queryTypeChange(data) {
 				this.query = {
-					page: 1,
+					page: 5,
 					size: 15,
 					pword: '',
 				}
@@ -107,7 +107,7 @@
 					url: 'touch/shop/getShopRisk',
 					method: 'post',
 					data: {
-						...this.query
+						// ...this.query
 					},
 					success: (res) => {
 						if (res.data.code == 200) {
@@ -123,10 +123,6 @@
 					},
 				});
 			},
-			queryData() {
-				this.query.page = 1;
-				this.getData()
-			},
 			openDetails(data) {
 				this.updataRichTextData(data)
 				pageSelectedMenu('richTextDetails', this)
@@ -134,6 +130,7 @@
 			// 图片加载错误
 			errorImage(err, index) {
 				this.riskStatementData[index].touch_thumbArr[0] = defaultDocument
+				this.$forceUpdate()
 			},
 		}
 	}

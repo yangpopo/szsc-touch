@@ -30,6 +30,7 @@
 				<view class="text">投诉建议</view>
 			</view>
 		</view>
+		
 		<!-- <view class="" @click="skipPage('manageCache')">缓存</view> -->
 	</detailsPage>
 </template>
@@ -54,7 +55,7 @@
 	export default {
 		name: 'home',
 		components: {
-			detailsPage
+			detailsPage,
 		},
 		data() {
 			return {
@@ -163,7 +164,41 @@
 			},
 			// 跳转页面
 			skipPage(val) {
-				skipPage(val, this)
+				if (val == 'recallNotice') {
+					// 召回公告
+					uni.showModal({
+						title: '请输入管理密码',
+						editable: true,
+						success: (data) => {
+							// 点了确认
+							if (data.confirm) {
+								if (!data.content) {
+									uni.showToast({
+										icon: 'none',
+										title: '密码不能为空!',
+										mask: true
+									})
+									return
+								}
+								const manageAccountId = uni.getStorageSync('manageAccountId') || null
+								if (manageAccountId != data.content) {
+									uni.showToast({
+										icon: 'none',
+										title: '密码错误!',
+										mask: true
+									})
+								} else {
+									skipPage(val, this)
+								}
+							}
+							// 点了取消
+							if (data.cancel) {
+							}
+						},
+					})
+				} else {
+					skipPage(val, this)
+				}
 			},
 		}
 	}
@@ -182,7 +217,7 @@
 			background-size: 100% 100%;
 			justify-content: start;
 			box-sizing: border-box;
-			padding: 1.5vw 2vw 0 2vw;
+			padding: 1.5vw 2vw 0vw 2vw;
 			margin-bottom: 2vw;
 
 			.head {
@@ -194,8 +229,8 @@
 				border-bottom: 0.03125rem solid rgba(255, 255, 255, 0.2);
 				color: #fff;
 				box-sizing: border-box;
-				padding-bottom: 1.5vw;
-				margin-bottom: 1.5vw;
+				padding-bottom: 1.25vw;
+				margin-bottom: 1.25vw;
 
 				.names {
 					font-size: 4.5vw;
@@ -232,6 +267,7 @@
 					-webkit-box-orient: vertical;
 					overflow: hidden;
 					text-overflow: ellipsis;
+					// margin-bottom: 1.25vw;
 				}
 
 				.icon-mark {

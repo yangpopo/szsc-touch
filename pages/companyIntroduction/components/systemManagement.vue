@@ -83,6 +83,7 @@
 			// 图片加载错误
 			errorImage(err, index) {
 				this.systemManagementData[index].touch_thumbArr[0] = defaultDocument
+				this.$forceUpdate()
 			},
 		}
 	}

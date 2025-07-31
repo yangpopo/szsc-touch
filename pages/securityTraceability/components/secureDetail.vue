@@ -5,100 +5,105 @@
 				<view class="head-title">溯源信息</view>
 			</template>
 		</menuNavigation>
-		<scroll-view class="main-box" v-if="secureDetailData" :scroll-y="true">
-			<view class="item">
-				<view class="name">商品名称</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">{{ secureDetailData.goods.goods_name }}</view>
-				</view>
-			</view>
-			<view class="item">
-				<view class="name">供货商信息</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">{{ secureDetailData.goods.goods_name }}</view>
-					<view class="first">{{ secureDetailData.vendor }}</view>
-					<view class="second">营业执照: <span class="nocard" v-if="secureDetailData.business_license.length <= 0">暂未上传</span><span class="havecard" @click="handleClickPdf(secureDetailData.business_license[0])" v-else>查看证件</span></view>
-				</view>
-			</view>
-			
-			<view class="item">
-				<view class="name">生产地信息</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">{{ secureDetailData.goods.origin_addr }}</view>
-				</view>
-			</view>
-			
-			<view class="item">
-				<view class="name">销售方信息</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">{{ secureDetailData.shop_name }}</view>
-					<view class="second">地址: {{secureDetailData.shop_addr}}</view>
-				</view>
-			</view>
-			
-			<view class="item">
-				<view class="name">商品条码</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">{{ secureDetailData.goods.goods_sku }}</view>
-				</view>
-			</view>
-			
-			<view class="item">
-				<view class="name">商品规格</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">{{ secureDetailData.goods.goods_specs }}</view>
-				</view>
-			</view>
-			
-			<view class="item">
-				<view class="name">商品单位</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">{{ secureDetailData.goods.goods_unit }}</view>
-				</view>
-			</view>
-			
-			<view class="item">
-				<view class="name">商品用途</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">{{ secureDetailData.goods.goods_category }}</view>
-				</view>
-			</view>
-			
-			<view class="item">
-				<view class="name">合格证明</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first">合格证: 
-						<span class="nocard" v-if="!secureDetailData.goods.cert_url">暂未上传</span>
-						<span class="havecard" @click="previewImage(secureDetailData.goods.cert_url[0])" v-else>查看证件</span>
+		
+		<view class="main-box">
+			<image class="divider" src="../../../assets/imgs/fg.png" mode="aspectFit"></image>
+			<view class="main-scroll-box">
+				<scroll-view class="scroll-view-box" v-if="secureDetailData" :scroll-y="true">
+					<view class="item">
+						<view class="name">商品名称</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">{{ secureDetailData.goods.goods_name || '-' }}</view>
+						</view>
 					</view>
-					<view class="second">检疫证: 
-						<span class="nocard" v-if="!secureDetailData.goods.quarantine_cert">暂未上传</span>
-						<span class="havecard" @click="previewImage(secureDetailData.goods.quarantine_cert[0])" v-else>查看证件</span>
+					<view class="item">
+						<view class="name">供货商信息</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">{{ secureDetailData.goods.goods_name || '-' }}</view>
+							<view class="first">{{ secureDetailData.vendor || '-' }}</view>
+							<view class="second">营业执照: <span class="nocard" v-if="secureDetailData.business_license.length <= 0">暂未上传</span><span class="havecard" @click="previewImage(secureDetailData.business_license[0])" v-else>查看证件</span></view>
+						</view>
 					</view>
-				</view>
+					
+					<view class="item">
+						<view class="name">生产地信息</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">{{ secureDetailData.goods.origin_addr || '-' }}</view>
+						</view>
+					</view>
+					
+					<view class="item">
+						<view class="name">销售方信息</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">{{ secureDetailData.shop_name || '-' }}</view>
+							<view class="second">地址: {{secureDetailData.shop_addr || '-' }}</view>
+						</view>
+					</view>
+					
+					<view class="item">
+						<view class="name">商品条码</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">{{ secureDetailData.goods.goods_sku || '-' }}</view>
+						</view>
+					</view>
+					
+					<view class="item">
+						<view class="name">商品规格</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">{{ secureDetailData.goods.goods_specs || '-' }}</view>
+						</view>
+					</view>
+					
+					<view class="item">
+						<view class="name">商品单位</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">{{ secureDetailData.goods.goods_unit || '-' }}</view>
+						</view>
+					</view>
+					
+					<view class="item">
+						<view class="name">商品用途</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">{{ secureDetailData.goods.goods_category || '-' }}</view>
+						</view>
+					</view>
+					
+					<view class="item">
+						<view class="name">合格证明</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first">合格证:
+								<span class="nocard" v-if="!secureDetailData.goods.cert_url || secureDetailData.goods.cert_url.length == 0">暂未上传</span>
+								<span class="havecard" @click="previewImage(secureDetailData.goods.cert_url[0])" v-else>查看证件</span>
+							</view>
+							<view class="second">检疫证:
+								<span class="nocard" v-if="!secureDetailData.goods.quarantine_cert || secureDetailData.goods.quarantine_cert.length == 0">暂未上传</span>
+								<span class="havecard" @click="previewImage(secureDetailData.goods.quarantine_cert[0])" v-else>查看证件</span>
+							</view>
+						</view>
+					</view>
+					
+					<view class="item">
+						<view class="name">检测公示</view>
+						<view class="icon"></view>
+						<view class="title">
+							<view class="first havecard" v-if="!secureDetailData.isNoneSamp" @click="openInspectionReport">查看详情</view>
+							<view class="second nocard" v-else>暂未上传</view>
+						</view>
+					</view>
+				</scroll-view>
+				<nullDataState class="none-box" v-else></nullDataState>
 			</view>
-			
-			<view class="item">
-				<view class="name">检测公示</view>
-				<view class="icon"></view>
-				<view class="title">
-					<view class="first havecard" v-if="!secureDetailData.isNoneSamp" @click="openInspectionReport">查看详情</view>
-					<view class="second nocard" v-else>暂未上传</view>
-				</view>
-			</view>
-		</scroll-view>
-		<view class="none-box" v-else>
-			<nullDataState></nullDataState>
 		</view>
+		
 		
 		
 		<!-- 檢查報告 -->
@@ -134,8 +139,8 @@
 					<view class="info-item">
 						<view class="title">检测结果</view>
 						<view class="content">
-							<uni-tag v-if="secureDetailData.samp.outcome == 0" text="阴性" type="success" />
-							<uni-tag v-else text="阳性" type="error" />
+							<uni-tag class="tag" v-if="secureDetailData.samp.outcome == 0" text="阴性" type="success" />
+							<uni-tag class="tag" v-else text="阳性" type="error" />
 						</view>
 					</view>
 				</view>
@@ -213,19 +218,9 @@
 				});
 			},
 			
-			handleClickPdf(url) {
-				const file = { name: url };
-				const pdf = file.name.toLowerCase().endsWith('.pdf');
-				if(pdf) {
-					uni.navigateTo({
-						url: '/pages/pdf/pdf?url='+url
-					})
-				} else {
-					this.previewImage(url)
-				}
-			},			
 			// 预览图片
 			previewImage(data) {
+				console.log(data, '-*-*-*-*')
 				if (!data) {
 					return
 				}
@@ -280,14 +275,36 @@
 		position: relative;
 		box-sizing: border-box;
 	}
-	
 	.main-box {
 		width: 100%;
-		height: calc(100% - 11vw);
+		height: calc(100% - 12vw);
 		background-color: #fff;
+		box-sizing: border-box;
+		padding: 2vw 0;
+		.divider {
+			background-color: #fff;
+			width: 100vw;
+			height: 2vw;
+			display: block;
+			margin-bottom: 2vw;
+		}
+	}
+	.main-scroll-box {
+		width: calc(100% - 4vw);
+		height: calc(100% - 5vw);
+		box-sizing: border-box;
+		padding: 2vw 0;
+		box-shadow: 0px 0px 4px  rgba(4, 100, 202, 0.3);
+		margin: 0 auto;
+		border-radius: 1.5vw;
+	}
+	.scroll-view-box {
+		width: calc(100%);
+		height: calc(100%);
 		position: relative;
 		box-sizing: border-box;
 		padding: 2vw 0;
+		
 		&:before {
 			content: '';
 			position: absolute;
@@ -295,20 +312,20 @@
 			height: calc(100%);
 			background-image: linear-gradient(180deg, rgba(4, 100, 202, 1), rgba(83, 164, 253, 0.5));
 			top: 50%;
-			left: 31.875%;
+			left: 32.25%;
 			transform: translateY(-50%);
-			z-index: 1;
+			z-index: 0;
 		}
 		.item {
 			display: flex;
 			align-items: center;
 			box-sizing: border-box;
-			padding: 3.5vw 1.5vw;
+			padding: 3.2vw 1.5vw;
 			
 			
 			.name {
 				font-size: 3vw;
-				width: 21vw;
+				width: 20vw;
 				text-align: right;
 				flex-shrink: 0;
 				color: rgba(25, 25, 25, 1);
@@ -349,7 +366,6 @@
 		box-sizing: border-box;
 		border-radius: 2vw;
 		padding: 3vw 5vw;
-		
 	  
 		>.title {
 			text-align: center;
@@ -367,19 +383,34 @@
 			width: 100%;
 			max-height: calc(100vh - 60vw);
 			overflow-y: auto;
+			border: 1px solid #ebeff2;
+			border-radius: 1.5vw;
+			box-sizing: border-box;
 			.info-item {
 				width: 100%;
 				display: flex;
 				box-sizing: border-box;
-				padding: 1vw 0;
+				border-bottom: 1px solid #ebeff2;
+				&:last-child {
+					border-bottom: none;
+				}
 				.title {
-					width: 16vw;
+					width: 20vw;
 					flex-shrink: 0;
 					font-size: 3.2vw;
+					box-sizing: border-box;
+					padding: 1.5vw 1.5vw;
+					border-right: 1px solid #ebeff2;
+					text-align: center;
 				}
 				.content {
 					font-size: 3.2vw;
 					word-wrap:break-word; 
+					box-sizing: border-box;
+					padding: 1.5vw 1.5vw;
+					.tag {
+						display: inline-block;
+					}
 				}
 			}
 		}

@@ -122,7 +122,20 @@
 						cacheName: "selfDirectedTrainingData", // 缓存记录名
 					},
 					{
-						name: "企业主要负责人",
+						name: "管理人员->组织结构",
+						interfaceName: "touch/shop/getShopJob",
+						queryParameters: {
+						},
+						state: "",
+						isCompleteCache: false,
+						// 要缓存的字段
+						cacheKey: [{
+							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+						}],
+						cacheName: "managerMenuData", // 缓存记录名
+					},
+					{
+						name: "管理人员->企业主要负责人",
 						interfaceName: "touch/shop/getShopPerson",
 						queryParameters: {
 						},
@@ -537,6 +550,7 @@
 						async (res) => {
 							if (!res) {
 								this.cacheCatalogue[this.currentIndex].state = '请求失败/暂无数据可以缓存!'
+								this.isCacheIng = false
 								return resolve(false)
 							}
 							for (let i = 0; i < this.cacheCatalogue[this.currentIndex].cacheKey.length; i++) {
@@ -705,7 +719,6 @@
 						success: (res) => {
 							if (res.data.code == 200) {
 								this.cacheCatalogue[this.currentIndex].state = "请求完成";
-								this.handleSpecialResData(cacheData, res.data.data)
 								resolve(res.data.data);
 							} else {
 								this.isCacheIng = false
@@ -722,19 +735,7 @@
 				});
 			},
 
-			/**
-			 * 处理接口数据的特殊情况
-			 * @param {object}cacheData 缓存数据
-			 * @param {object}resData 返回数据
-			 * @returns {void}
-			 */
-			handleSpecialResData(cacheData, resData) {
-				if (cacheData.name == '价格公示-分类') {
-					if (resData.length > 0) {
-						this.goodsClassPid = resData[0].pid
-					}
-				}
-			},
+	
 
 			/**
 			 * 下载保存

@@ -9,17 +9,17 @@
 			</template>
 		</menuNavigation>
 		<view class="deadline-reminder">
-			<template v-if="deadlineReminderData && deadlineReminderData.data.length != 0">
-				<scroll-view class="scroll-box" :scroll-y="true" :show-scrollbar="false">
-					<view class="item" v-for="(item,index) in deadlineReminderData.data" :key="index">
+			<template v-if="deadlineReminderData.length != 0">
+				<scroll-view class="scroll-box" :scroll-y="true" :show-scrollbar="false" @scrolltolower="loadMore">
+					<view class="item" v-for="(item,index) in deadlineReminderData" :key="index">
 						<image class="cover" :src="item.cert_url[0] || defaultDocument" @click="previewImage(item.cert_url[0])" @error="errorImage($event, index)"></image>
 						<view class="info-box">
 							<view class="name">
-								商品名称:{{ item.goods_name }}
+								商品名称:{{ item.goods_name || '-' }}
 							</view>
-							<view class="info-item">商品种类: <view class="ml10">{{item.cate_name}}</view>
+							<view class="info-item">商品种类: <view class="ml10">{{item.cate_name || '-'}}</view>
 							</view>
-							<view class="info-item">商品单位: <view class="ml10">{{item.plu_unit}}</view>
+							<view class="info-item">商品单位: <view class="ml10">{{item.plu_unit || '-'}}</view>
 							</view>
 							<view class="info-item" style="justify-content: space-between">
 								<view class="date">到期时间: <span class="ml10">{{item.end_time.split(' ')[0]}}</span></view>
@@ -28,10 +28,8 @@
 							</view>
 						</view>
 					</view>
-					<view class="gap" style="width: 100%; height: 3vw;"></view>
+					<view class="gap" style="width: 100%; height: 2vw;"></view>
 				</scroll-view>
-				<paginationCustomize :size="query.size" :current="query.page" :total="deadlineReminderData.total"
-					@change="queryChange"></paginationCustomize>
 			</template>
 			<nullDataState v-else></nullDataState>
 		</view>
@@ -48,7 +46,6 @@
 	import inputBox from '@/components/inputBox.vue'
 	import inputDateBox from '@/components/inputDateBox.vue'
 	import nullDataState from '@/components/nullDataState'
-	import paginationCustomize from '@/components/paginationCustomize'
 	import kxjPreviewImage from '@/components/kxj-previewImage'
 	import defaultDocument from '@/assets/imgs/default-document.png'
 
@@ -63,7 +60,6 @@
 			inputDateBox,
 			menuNavigation,
 			nullDataState,
-			paginationCustomize,
 			kxjPreviewImage,
 		},
 		data() {
@@ -73,9 +69,10 @@
 					size: 15,
 					pword: '',
 				},
-				deadlineReminderData: null,
+				deadlineReminderData: [],
 				imageUrl: '',
 				defaultDocument,
+				isComplete: false,
 			}
 		},
 		computed: {
@@ -85,7 +82,7 @@
 			const deadlineReminderData = uni.getStorageSync('deadlineReminderData') || null;
 			if (deadlineReminderData) {
 				lazyLoadCache(() => {
-					this.deadlineReminderData = deadlineReminderData
+					this.deadlineReminderData = deadlineReminderData.data
 				})
 			} else {
 				await this.getData()
@@ -112,17 +109,19 @@
 					},
 					success: (res) => {
 						if (res.data.code == 200) {
-							this.deadlineReminderData = res.data.data
+							if (res.data.data.data.length == 0) {
+								this.isComplete = true
+							}
+							res.data.data.data.forEach(item => {
+								this.deadlineReminderData.push(item)
+							})
 						}
 					},
 				});
 			},
-			queryChange(data) {
-				this.query.page = data.current
-				this.getData()
-			},
 			queryData() {
 				this.query.page = 1;
+				this.isComplete = false
 				this.getData()
 			},
 			// 预览图片
@@ -138,7 +137,15 @@
 			},
 			// 图片加载错误
 			errorImage(err, index) {
-				this.deadlineReminderData.data[index].cert_url[0] = defaultDocument
+				this.deadlineReminderData[index].cert_url[0] = defaultDocument
+				this.$forceUpdate()
+			},
+			loadMore() {
+				if (this.isComplete) {
+					return
+				}
+				this.query.page++;
+				this.getData()
 			},
 		}
 	}
@@ -179,7 +186,7 @@
 		background-color: #fff;
 		.scroll-box {
 			width: 100%;
-			height: calc(100% - 12vw);
+			height: calc(100% - 2vw);
 			box-sizing: border-box;
 			padding: 2vw 0 0 0;
 
@@ -189,6 +196,7 @@
 				padding: 15rpx;
 				box-shadow: 0 0 1vw rgba(4, 100, 202, 0.5);
 				margin: 3vw auto 3vw auto;
+				border-radius: 1.5vw;
 
 				.cover {
 					width: 23vw;

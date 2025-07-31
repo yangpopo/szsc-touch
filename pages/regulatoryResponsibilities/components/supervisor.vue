@@ -7,11 +7,11 @@
 				  <view class="info-box">
 				    <view class="name">{{item.person_name}}</view>
 				    <view class="info-item">
-				      <image class="icon" src="@/assets/imgs/phone.png"></image>
+				      <image class="icon" src="../../../assets/imgs/phone.png"></image>
 				      <view class="describe">{{item.person_phone}}</view>
 				    </view>
 				    <view class="info-item">
-							<image class="icon" src="@/assets/imgs/location.png"></image>
+							<image class="icon" src="../../../assets/imgs/location.png"></image>
 				      <view class="describe">
 				        {{item.supervise_name && item.supervise_name.length > 12 ? item.supervise_name.slice(0,11) + '...' : item.supervise_name}}
 				      </view>
@@ -95,7 +95,7 @@
 		.supervisor-item {
 		  width: calc(50% - 1vw);
 		  box-shadow: 0 0 5rpx 0 rgba(4, 100, 202, 0.3);
-		  margin-bottom: 30rpx;
+		  margin-bottom: 2vw;
 		  display: flex;
 		  align-items: center;
 			border-radius: 1vw;
@@ -105,14 +105,15 @@
 		    height: 28vw;
 				border-radius: 1vw;
 				flex-shrink: 0;
-				margin-right: 1vw;
+				margin-right: 1.5vw;
 				display: block;
 		  }
 		
 		  .info-box {
 		    width: 60%;
 		    height: 100%;
-		    
+		    box-sizing: border-box;
+				padding-top: 0.5vw;
 		
 		    .name {
 		      font-size: 30rpx;
