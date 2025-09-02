@@ -1,0 +1,67 @@
+夜神模拟器
+D:/Nox/bin/adb.exe
+62001
+
+
+mu模拟器
+D:/MuMu Player 12/shell/adb.exe
+16384
+
+
+market_touch 食安查询终端   分支  new-market-touch
+文档地址: http://192.168.0.196:8888/api/doc.html#/18.%E8%A7%A6%E6%91%B8%E5%B1%8F%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/%E8%A7%A6%E6%91%B8%E5%B1%8F/getMarketWeeklyInvestigationByPage
+测试账户  5000002  spblb   123456
+测试账户  88888888   admin  123456
+
+
+szsc_min  经营智管
+设计稿  https://js.design/f/UZCyU-?p=tXCu3tgVt3&mode=design
+设计稿  https://js.design/f/jSnYIX?p=4rVXGnf-qa&mode=design
+文档地址: https://www.showdoc.cc/2263232425262873    密码: 654321
+测试账户--超市  xsjbh-txqd   123456      yhshgcd   123456
+测试账户--监控--数字商超  cqs20  123456
+测试账户--集中交易市场 nm12345 123456     zxq123   123456     zd123 123456
+
+
+touch-->supermarket    数字商超-触摸屏-管理员版   szscTouch 数字商超大屏
+文档地址: https://www.showdoc.cc/2263232425262873      触摸屏    密码: 654321
+测试账户--  yhshgc  654321   xsjsd  654321
+
+
+zhnyManger  渝农管家-->小程序   集中交易市场商户、市场端    农品溯源购
+文档地址: http://192.168.0.196:8888/api/doc.html#/18.%E8%A7%A6%E6%91%B8%E5%B1%8F%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3/%E8%A7%A6%E6%91%B8%E5%B1%8F/getMarketWeeklyInvestigationByPage
+测试账户--经营户 17723500801  123456      13908321978  123456      15310324007   123456      18223524709  123456
+测试账户--市场人员 wdf  123123     13637795583  123456       15310324007   123456
+
+002市场 003经营户
+
+
+
+
+zhny-user 农品溯源购-->小程序   集中交易市场司机、采购商端
+测试账户--采购商  17701530391     123456     15310324007   123456     18223524709  123456
+
+
+szsc_vue2.0  重庆数字商超监管服务平台-->触摸屏后台-->pc
+测试账户-->  yhshgcd  123456
+
+
+
+綦优鲜   -->  qiyouxian  --> TSSS    原始小程序appid --> wx31484bdf4c0aefce     wx76ce111a46cb30d3
+
+綦优鲜   -->  qiyouxian  --> 03-sgmp    原始小程序appid --> wxbb2479c21755c2c8     wx76ce111a46cb30d3
+
+
+http://market.zhnyst.com/seller?code=7zgbAqEAWa&market_id=1
+
+
+http://market.zhnyst.com/seller?code=0ec4f53f98&market_id=6
+
+http://market.zhnyst.com/seller?code=0ec4f53f98&market_id=6
+
+http://market.zhnyst.com/tseller?code=4mmIYYqTPx&market_id=6   开发版本
+
+
+http://market.zhnyst.com/tseller/?code=4mmIYYqTPx&market_id=6   体验版本
+
+
