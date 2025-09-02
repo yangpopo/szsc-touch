@@ -34,21 +34,20 @@
 		components: {},
 		data() {
 			return {
-				goodsClassPid: null, // 商品类的Pid
-				currentIndex: 0, // 当前索引
-				isCacheIng: false, // 是否正在缓存
+				goodsClassPid: null,
+				currentIndex: 0,
+				isCacheIng: false,
 				cacheCatalogue: [{
 						name: "首页",
 						interfaceName: "touch/shop/getShopDesc",
-						queryParameters: {}, // 查询
-						state: "", // 状态
+						queryParameters: {},
+						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
 						cacheKey: [{
 							keyName: "content",
-							cacheType: 'richText', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'richText',
 						}],
-						cacheName: "introductionData", // 缓存记录名
+						cacheName: "introductionData",
 					},
 					{
 						name: "企业介绍",
@@ -57,13 +56,12 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
 						cacheKey: [{
 							keyName: "content",
-							cacheType: 'richText', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'richText',
 						}, {
 							keyName: "medal",
-							cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'picture',
 						}],
 						cacheName: 'companyIntroductionData'
 					},
@@ -74,18 +72,18 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'dataList', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'dataList',
 							childKeyName: [{
 								keyName: 'content',
-								cacheType: 'richText', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+								cacheType: 'richText',
 							}, {
 								keyName: 'touch_thumb',
-								cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+								cacheType: 'picture',
 							}],
 						}],
-						cacheName: "systemManagementData", // 缓存记录名
+						cacheName: "systemManagementData",
 					},
 					{
 						name: "主体承诺",
@@ -94,15 +92,15 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
 							keyName: "content",
-							cacheType: 'richText', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'richText',
 						}, {
 							keyName: "touch_thumb",
-							cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'picture',
 						}],
-						cacheName: "subjectCommitmentData", // 缓存记录名
+						cacheName: "subjectCommitmentData",
 					},
 					{
 						name: "企业自主培训",
@@ -111,15 +109,15 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
 							keyName: "train",
-							cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'picture',
 						}, {
 							keyName: "sign",
-							cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'picture',
 						}],
-						cacheName: "selfDirectedTrainingData", // 缓存记录名
+						cacheName: "selfDirectedTrainingData",
 					},
 					{
 						name: "管理人员->组织结构",
@@ -128,11 +126,11 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'default',
 						}],
-						cacheName: "managerMenuData", // 缓存记录名
+						cacheName: "managerMenuData",
 					},
 					{
 						name: "管理人员->企业主要负责人",
@@ -141,15 +139,15 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'dataList', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'dataList',
 							childKeyName: [{
 								keyName: 'avatar',
-								cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+								cacheType: 'picture',
 							}],
 						}],
-						cacheName: "managerData", // 缓存记录名
+						cacheName: "managerData",
 					},
 					{
 						name: "安全溯源",
@@ -162,11 +160,11 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存
+							cacheType: 'default', 
 						}],
-						cacheName: "securityTraceabilityData", // 缓存记录名
+						cacheName: "securityTraceabilityData",
 					},
 					{
 						name: "临期提醒",
@@ -178,16 +176,16 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
 							keyName: "data",
-							cacheType: 'pagingList', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'pagingList',
 							childKeyName: [{
 								keyName: 'cert_url',
-								cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+								cacheType: 'picture',
 							}],
 						}],
-						cacheName: "deadlineReminderData", // 缓存记录名
+						cacheName: "deadlineReminderData",
 					},
 					{
 						name: "食安检测",
@@ -200,11 +198,11 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'default',
 						}],
-						cacheName: "foodSafetyTestingData", // 缓存记录名
+						cacheName: "foodSafetyTestingData",
 					},
 					{
 						name: "监管责任-监管人员",
@@ -213,15 +211,15 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'default',
 							childKeyName: [{
 								keyName: 'avatar',
-								cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+								cacheType: 'picture',
 							}],
 						}],
-						cacheName: "supervisorData", // 缓存记录名
+						cacheName: "supervisorData",
 					},
 					{
 						name: "监管责任-风险等级",
@@ -230,12 +228,12 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
 							keyName: 'pdf_url',
-							cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'picture',
 						}],
-						cacheName: "riskLevelData", // 缓存记录名
+						cacheName: "riskLevelData",
 					},
 					{
 						name: "监管责任-监督检查",
@@ -244,12 +242,12 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
 							keyName: 'pdf_url',
-							cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'picture',
 						}],
-						cacheName: "supervisionAndInspectionData", // 缓存记录名
+						cacheName: "supervisionAndInspectionData",
 					},
 					{
 						name: "监管责任-监督抽查",
@@ -261,11 +259,11 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'default',
 						}],
-						cacheName: "supervisionAndSpotChecksData", // 缓存记录名
+						cacheName: "supervisionAndSpotChecksData",
 					},
 					{
 						name: "属地责任",
@@ -274,12 +272,12 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
 							keyName: 'pdf_url',
-							cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'picture',
 						}],
-						cacheName: "territorialResponsibilityData", // 缓存记录名
+						cacheName: "territorialResponsibilityData",
 					},
 					{
 						name: "法律法规",
@@ -291,18 +289,18 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'dataList', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'dataList',
 							childKeyName: [{
 								keyName: 'content',
-								cacheType: 'richText', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+								cacheType: 'richText',
 							}, {
 								keyName: 'touch_thumb',
-								cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+								cacheType: 'picture',
 							}],
 						}],
-						cacheName: "lawsAndRegulationsData", // 缓存记录名
+						cacheName: "lawsAndRegulationsData",
 					},
 					{
 						name: "阳光食品-日管控",
@@ -311,11 +309,11 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'default',
 						}],
-						cacheName: "dailyControlData", // 缓存记录名
+						cacheName: "dailyControlData",
 					},
 					{
 						name: "阳光食品-周排查",
@@ -324,16 +322,16 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'dataList', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'dataList',
 							maxLimit: 1,
 							childKeyName: [{
 								keyName: 'pdf_url',
-								cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+								cacheType: 'picture',
 							}],
 						}],
-						cacheName: "weeklyInvestigationData", // 缓存记录名
+						cacheName: "weeklyInvestigationData",
 					},
 					{
 						name: "阳光食品-月调度",
@@ -342,12 +340,12 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
 							keyName: "pdf_url",
-							cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'picture',
 						}],
-						cacheName: "monthlySchedulingData", // 缓存记录名
+						cacheName: "monthlySchedulingData",
 					},
 					{
 						name: "阳光食品-动态评分",
@@ -356,11 +354,11 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表  default 默认缓存  pagingList 分页列表
+							cacheType: 'default',
 						}],
-						cacheName: "dynamicScoringData", // 缓存记录名
+						cacheName: "dynamicScoringData",
 					},
 					{
 						name: "风险提示",
@@ -369,18 +367,18 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'dataList', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'dataList',
 							childKeyName: [{
 								keyName: 'content',
-								cacheType: 'richText', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+								cacheType: 'richText',
 							}, {
 								keyName: 'touch_thumb',
-								cacheType: 'picture', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+								cacheType: 'picture',
 							}],
 						}],
-						cacheName: "riskStatementData", // 缓存记录名
+						cacheName: "riskStatementData",
 					},
 					{
 						name: "召回公告", 
@@ -389,21 +387,21 @@
 						},
 						state: "",
 						isCompleteCache: false,
-						// 要缓存的字段
+
 						cacheKey: [{
-							cacheType: 'default', // 缓存类型 richText: 富文本  picture 图片  dataList 数据列表
+							cacheType: 'default',
 						}],
-						cacheName: "recallNoticeData", // 缓存记录名
+						cacheName: "recallNoticeData",
 					},
 				],
 			};
 		},
 		onLoad(e) {},
-		// 销毁前
+
 		beforeDestroy() {
-			uni.hideLoading() // 关闭全部加载状态
+			uni.hideLoading()
 		},
-		// 创建完成
+
 		created() {
 			for (let i = 0; i < this.cacheCatalogue.length; i++) {
 				let completeCache = true;
@@ -411,18 +409,16 @@
 				if (!cacheValue || cacheValue.length <= 0) {
 					completeCache = false;
 					uni.removeStorageSync(this.cacheCatalogue[i].cacheName)
-					continue // 退出当前循环
+					continue
 				}
 				if (!cacheValue) {
 					completeCache = false;
-					continue // 退出当前循环
+					continue
 				}
 
 				if (completeCache) {
-					// 完成缓存
 					this.cacheCatalogue[i].isCompleteCache = true;
 				} else {
-					// 没有缓存
 					this.cacheCatalogue[i].isCompleteCache = false;
 				}
 			}
@@ -437,9 +433,6 @@
 				"updateTwoPageName",
 				"updateThreePageName",
 			]),
-			/**
-			 * 清除全部
-			 */
 			clearCacheAll() {
 				if (this.isCacheIng) {
 					uni.showModal({
@@ -466,9 +459,7 @@
 				uni.hideLoading()
 			},
 
-			/**
-			 * 缓存全部
-			 */
+
 			async startCacheAll() {
 				uni.showLoading({
 					title: '正在缓存..',
@@ -480,17 +471,14 @@
 				uni.hideLoading()
 			},
 
-			/**
-			 * 提取资源URL
-			 * @param htmlString html字符串
-			 */
+
 			extractResourceURLs(htmlString) {
 				const regex = /<img[^>]+src=["']?([^"'\s>]+)/gi;
 				const matches = [];
 
 				let match;
 				while ((match = regex.exec(htmlString)) !== null) {
-					// 提取 src 值（去除可能的引号）
+
 					const src = match[1].replace(/^['"]|['"]$/g, '');
 					matches.push(src);
 				}
@@ -498,9 +486,7 @@
 			},
 
 
-			/**
-			 * 退出返回
-			 */
+	
 			exitReturn() {
 				if (this.isCacheIng) {
 					uni.showModal({
@@ -519,20 +505,13 @@
 				skipPage("system", this);
 			},
 
-			/**
-			 * 清除缓存
-			 * @param {number}cacheInfo 索引
-			 */
+
 			clearCache() {
 				uni.removeStorageSync(this.cacheCatalogue[this.currentIndex].cacheName)
 				this.cacheCatalogue[this.currentIndex].isCompleteCache = false;
 			},
 
-			/**
-			 * 开始缓存
-			 * @param {number}index 索引
-			 * @param cacheInfo 缓存信息
-			 */
+
 			startCache(index, cacheInfo) {
 				if (this.isCacheIng) {
 					uni.showToast({
@@ -542,8 +521,8 @@
 					return
 				}
 				this.isCacheIng = true
-				this.currentIndex = index // 设置当前索引
-				this.clearCache() // 清除缓存
+				this.currentIndex = index
+				this.clearCache()
 				return new Promise((resolve, reject) => {
 					let allCompleteCache = true
 					this.requestOccurred(this.cacheCatalogue[this.currentIndex]).then(
@@ -554,9 +533,8 @@
 								return resolve(false)
 							}
 							for (let i = 0; i < this.cacheCatalogue[this.currentIndex].cacheKey.length; i++) {
-								// 处理富文本
 								if (this.cacheCatalogue[this.currentIndex].cacheKey[i].cacheType == 'richText') {
-									let richTextResult = await this.handleRichText(res[this.cacheCatalogue[this.currentIndex].cacheKey[i].keyName]) // 富文本返回结果
+									let richTextResult = await this.handleRichText(res[this.cacheCatalogue[this.currentIndex].cacheKey[i].keyName])
 									if (richTextResult.returnStatus) {
 										res[this.cacheCatalogue[this.currentIndex].cacheKey[i].keyName] = richTextResult.data
 										this.cacheLocalData(res)
@@ -565,7 +543,7 @@
 									}
 								}
 								
-								// 处理图片
+
 								if (this.cacheCatalogue[this.currentIndex].cacheKey[i].cacheType == 'picture') {
 									let pictureData = res[this.cacheCatalogue[this.currentIndex].cacheKey[i].keyName]
 									let pictureDataArr = []
@@ -585,14 +563,12 @@
 									}
 								}
 								
-								// 处理数据列表
 								if (this.cacheCatalogue[this.currentIndex].cacheKey[i].cacheType == 'dataList') {
 									let maxLimit = this.cacheCatalogue[this.currentIndex].cacheKey[i].maxLimit ||res.length
 									for (let k = 0; k < maxLimit; k++) {
 										for (let j = 0; j < this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName.length; j++) {
-											// 处理富文本
 											if (this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[j].cacheType == 'richText') {
-												let richTextResult = await this.handleRichText(res[k][this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[j].keyName]) // 富文本返回结果
+												let richTextResult = await this.handleRichText(res[k][this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[j].keyName])
 												if (richTextResult.returnStatus) {
 													res[k][this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[j].keyName] = richTextResult.data
 													this.cacheLocalData(res)
@@ -600,7 +576,6 @@
 													allCompleteCache = false
 												}
 											}
-											// 处理图片
 											if (this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[j].cacheType == 'picture') {
 												let pictureData = res[k][this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[j].keyName]
 												let pictureDataArr = []
@@ -623,15 +598,12 @@
 									}
 								}
 								
-								// 处理默认数据
 								if (this.cacheCatalogue[this.currentIndex].cacheKey[i].cacheType == 'default') {
 									if (Object.prototype.toString.call(res) == '[object Array]') {
 										if (this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName) {
 											for(let j = 0; j < res.length; j++) {
 												for (let k = 0; k < this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName.length; k++) {
-													// 处理图片
 													if (this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[k].cacheType == 'picture') {
-														// console.log()
 														let pictureData = res[j][this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[k].keyName]
 														let pictureDataArr = []
 														if (pictureData) {
@@ -656,11 +628,9 @@
 									this.cacheLocalData(res)
 								}
 								
-								// 处理分页列表
 								if (this.cacheCatalogue[this.currentIndex].cacheKey[i].cacheType == 'pagingList') {
 									for (let j = 0; j < res[this.cacheCatalogue[this.currentIndex].cacheKey[i].keyName].length; j++) {
 										for (let k = 0; k < this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName.length; k++) {
-											// 处理图片
 											if (this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[k].cacheType == 'picture') {
 												let pictureData = res[this.cacheCatalogue[this.currentIndex].cacheKey[i].keyName][j][this.cacheCatalogue[this.currentIndex].cacheKey[i].childKeyName[k].keyName]
 												let pictureDataArr = []
@@ -685,16 +655,15 @@
 							}
 
 
-							// 全部完成缓存切换状态
 							if (allCompleteCache) {
 								console.log(allCompleteCache, '全部缓存成功')
 								this.cacheCatalogue[this.currentIndex].isCompleteCache = true;
 								this.cacheCatalogue[this.currentIndex].state = '全部缓存成功!'
-								this.isCacheIng = false // 解除正在缓存
+								this.isCacheIng = false
 								resolve()
 							} else {
 								this.cacheCatalogue[this.currentIndex].state = '缓存失败,请稍后再试!'
-								this.isCacheIng = false // 解除正在缓存
+								this.isCacheIng = false
 								reject()
 							}
 						}
@@ -702,11 +671,7 @@
 				})
 			},
 
-			/**
-			 * 发送请求
-			 * @param {object}cacheData
-			 * @returns {void}
-			 */
+
 			async requestOccurred(cacheData) {
 				return new Promise((resolve, reject) => {
 					this.cacheCatalogue[this.currentIndex].state = "发送请求..";
@@ -737,12 +702,7 @@
 
 	
 
-			/**
-			 * 下载保存
-			 * @param {string}url 资源地址
-			 * @param {object}cacheData 缓存资源
-			 * @returns {void}
-			 */
+
 			downloadSave(url) {
 				let $this = this;
 				return new Promise((resolve, reject) => {
@@ -751,9 +711,7 @@
 						url: url,
 						timeout: 180000,
 						success: (res) => {
-							// console.log('临时文件路径:', res.tempFilePath)
-							// 本地存储
-							uni.saveFile({
+										uni.saveFile({
 								tempFilePath: res.tempFilePath,
 								success(res) {
 									console.log("文件保存路径:", res.savedFilePath);
@@ -783,7 +741,6 @@
 			},
 
 
-			// 处理富文本
 			handleRichText(text) {
 				return new Promise(async(resolve, reject) => {
 					let cacheResults = {
@@ -793,7 +750,6 @@
 					let textPictureArr = this.extractResourceURLs(text)
 					for (let i = 0; i < textPictureArr.length; i++) {
 						let saveResult = await this.downloadSave(textPictureArr[i])
-						// 不考虑缓存失败的问题
 						if (saveResult) {
 							const regex = new RegExp(textPictureArr[i], "g");
 							text = text.replace(regex, saveResult)
@@ -806,7 +762,6 @@
 				})
 			},
 			
-			// 长处理图片
 			handlePicture(pictureArr) {
 				return new Promise(async(resolve, reject) => {
 					let cacheResults = {
@@ -815,7 +770,6 @@
 					}
 					for (let i = 0; i < pictureArr.length; i++) {
 						let saveResult = await this.downloadSave(pictureArr[i])
-						// 不考虑缓存失败的问题
 						if (saveResult) {
 							pictureArr[i] = saveResult
 						} else {
@@ -827,7 +781,6 @@
 				})
 			},
 
-			// 缓存本地data
 			cacheLocalData(data) {
 				uni.setStorageSync(
 					this.cacheCatalogue[this.currentIndex].cacheName,

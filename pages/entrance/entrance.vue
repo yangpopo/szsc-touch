@@ -96,13 +96,9 @@
 			}
 			
 			// #ifdef APP-PLUS
-			this.inspectAppUpdate() // 检查版本号
+			// this.inspectAppUpdate() // 检查版本号
 			plus.key.addEventListener("keyup", this.keypress) // 监听键盘
 			// #endif
-			
-			// // #ifdef H5
-			// document.addEventListener("keyup", this.keypress);
-			// // #endif
 			
 		},
 		watch:{
@@ -244,9 +240,9 @@
 					// 获取uuid
 					plus.device.getInfo({
 						success:(e) => {
-							this.upOnline(widgetInfo.version, e.uuid) // 初始化第一次
+							this.upOnline(widgetInfo.version, e?.uuid || e?.imei) // 初始化第一次
 							setInterval(() => {
-								this.upOnline(widgetInfo.version, e.uuid)
+								this.upOnline(widgetInfo.version, e?.uuid || e?.imei)
 							}, 30 * 60 * 1000)
 							// 30 * 60 * 1000
 						},

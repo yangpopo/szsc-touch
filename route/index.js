@@ -1,154 +1,154 @@
-// 路由地址
+
 export const routes = [
 	{
 		name: '',
-		component: 'home', // 首页
+		component: 'home', 
 	}, 
 	{
 		name: 'home',
-		component: 'home', // 首页
+		component: 'home', 
 	},
 	{
 		name: 'companyIntroduction',
-		component: 'companyIntroduction', // 企业介绍 -> 企业介绍
+		component: 'companyIntroduction', 
 		childrens: [{
 			name: 'companyIntroductionPage',
-			component: 'companyIntroductionPage', // 企业介绍 -> 企业介绍
+			component: 'companyIntroductionPage', 
 		}, {
 			name: 'systemManagement',
-			component: 'systemManagement' ,// 企业介绍 -> 制度管理
+			component: 'systemManagement' ,
 			childrens: [{
 				name: 'richTextDetails',
-				component: 'richTextDetails' ,// 企业介绍 -> 制度详情 --> 富文本详情
+				component: 'richTextDetails' ,
 			}]
 		}]
 	},
 	{
 		name: 'principalResponsibility',
-		component: 'principalResponsibility', // 主体责任 -> 主体承诺
+		component: 'principalResponsibility', 
 		childrens: [{
 			name: 'subjectCommitment',
-			component: 'subjectCommitment', // 主体责任 -> 主体承诺
+			component: 'subjectCommitment', 
 		}, {
 			name: 'selfDirectedTraining',
-			component: 'selfDirectedTraining' // 主体责任 -> 企业自主培训
+			component: 'selfDirectedTraining' 
 		}]
 	},
 	{
 		name: 'manager',
-		component: 'manager', // 管理人员
+		component: 'manager', 
 	},
 	{
 		name: 'securityTraceability',
-		component: 'securityTraceability', // 安全溯源
+		component: 'securityTraceability', 
 		childrens: [{
 			name: 'securityTraceability',
-			component: 'securityTraceability', // 安全溯源 -> 溯源详情
+			component: 'securityTraceability', 
 		},{
 			name: 'secureDetail',
-			component: 'secureDetail', // 安全溯源 -> 溯源详情
+			component: 'secureDetail', 
 		}]
 	},
 	{
 		name: 'deadlineReminder',
-		component: 'deadlineReminder', // 临期提醒
+		component: 'deadlineReminder', 
 		childrens: [{
 			name: 'deadlineReminder',
-			component: 'deadlineReminder', // 临期提醒 -> 临期提醒
+			component: 'deadlineReminder', 
 		}]
 	},
 	{
 		name: 'foodSafetyTesting',
-		component: 'foodSafetyTesting', // 食安檢測
+		component: 'foodSafetyTesting', 
 		childrens: [{
 			name: 'foodSafetyTesting',
-			component: 'foodSafetyTesting', // 食安檢測 -> 食安檢測
+			component: 'foodSafetyTesting', 
 		}]
 	},
 	{
 		name: 'regulatoryResponsibilities',
-		component: 'regulatoryResponsibilities', // 监管责任
+		component: 'regulatoryResponsibilities', 
 		childrens: [{
 			name: 'supervisor',
-			component: 'supervisor', // 监管责任 -> 监管人员
+			component: 'supervisor', 
 		}, {
 			name: 'riskLevel',
-			component: 'riskLevel' // 监管责任 -> 风险等级
+			component: 'riskLevel' 
 		}, {
 			name: 'supervisionAndInspection',
-			component: 'supervisionAndInspection' // 监管责任 -> 监督检查
+			component: 'supervisionAndInspection' 
 		}, {
 			name: 'supervisionAndSpotChecks',
-			component: 'supervisionAndSpotChecks' // 监管责任 -> 监督抽查
+			component: 'supervisionAndSpotChecks' 
 		}]
 	},
 	{
 		name: 'territorialResponsibility',
-		component: 'territorialResponsibility', // 属地责任
+		component: 'territorialResponsibility', 
 		childrens: [{
 			name: 'territorialResponsibility',
-			component: 'territorialResponsibility', // 属地责任 -> 属地责任
+			component: 'territorialResponsibility', 
 		}]
 	},
 	{
 		name: 'lawsAndRegulations',
-		component: 'lawsAndRegulations', // 法律法规
+		component: 'lawsAndRegulations', 
 		childrens: [{
 			name: 'lawsAndRegulations',
-			component: 'lawsAndRegulations', // 法律法规 -> 法律法规
+			component: 'lawsAndRegulations', 
 		}]
 	},
 	{
 		name: 'sunshineFood',
-		component: 'sunshineFood', // 阳光食品
+		component: 'sunshineFood', 
 		childrens: [{
 			name: 'dailyControl',
-			component: 'dailyControl', // 阳光食品 -> 日管控
+			component: 'dailyControl', 
 		}, {
 			name: 'weeklyInvestigation',
-			component: 'weeklyInvestigation' // 阳光食品 -> 周排查
+			component: 'weeklyInvestigation' 
 		}, {
 			name: 'monthlyScheduling',
-			component: 'monthlyScheduling' // 阳光食品 -> 月调度
+			component: 'monthlyScheduling' 
 		}, {
 			name: 'dynamicScoring',
-			component: 'dynamicScoring' // 阳光食品 -> 动态评分
+			component: 'dynamicScoring' 
 		}]
 	},
 	{
 		name: 'riskStatement',
-		component: 'riskStatement', // 风险提示
+		component: 'riskStatement', 
 		childrens: [{
 			name: 'riskStatement',
-			component: 'riskStatement', // 风险提示 -> 风险提示
+			component: 'riskStatement', 
 		}]
 	},
 	{
 		name: 'recallNotice',
-		component: 'recallNotice', // 召回公告
+		component: 'recallNotice', 
 		childrens: [{
 			name: 'recallNotice',
-			component: 'recallNotice', // 召回公告 -> 召回公告
+			component: 'recallNotice', 
 		}]
 	},
 	{
 		name: 'login',
-		component: 'login', // 登录
+		component: 'login', 
 	},
 	{
 		name: 'system',
-		component: 'system', // 管理配置页
+		component: 'system', 
 	},
 	{
 		name: 'screensaver',
-		component: 'screensaver', // 屏保
+		component: 'screensaver', 
 	},
 	{
 		name: 'complaintOpinion',
-		component: 'complaintOpinion', // 投诉管理
+		component: 'complaintOpinion', 
 	},
 	{
 		name: 'manageCache',
-		component: 'manageCache', // 管理缓存
+		component: 'manageCache', 
 	}
 ]
